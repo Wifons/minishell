@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 09:24:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/23 15:20:59 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/25 20:56:35 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	main(void)
 		if (tokens)
 		{
 			cmd = parse_cmd(tokens);
-			execute_command(cmd);
+			exec_command(cmd);
 		}
 		//ft_free_cmd_lst(cmd);
 		/*if (tokens)

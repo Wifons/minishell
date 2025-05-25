@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/23 15:20:46 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/25 20:47:56 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,18 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <string.h> // a retirer
-# include <stdbool.h> // a revoir
+# include <stdbool.h> // a retirer
+
+#include <fcntl.h>
+#include <sys/wait.h>
+
+#define PIPE_READ  0
+#define PIPE_WRITE 1
+#define CMD_NOT_FOUND 127
+#define EXEC_ERROR 126
+#define GENERAL_ERROR 1
+#define SUCCESS 0
+#define FILE_PERMS 0644
 
 typedef enum 
 {
@@ -59,12 +70,12 @@ typedef struct cmd
 t_token *tokenize(char *str);
 char    *ft_clean_comment(char *str);
 /*      Spliting Utils */
-void	ft_free(char **result);
+void	_ft_free(char **result);
 int		is_quote(char *str, int i);
 int		check_in_quote(char *str, int i);
 int		check_symbol(char *str, int i);
-int		ft_countword(char *str);
-char	*ft_strcpy(char *src, char *dest, int debut, int fin);
+int		_ft_countword(char *str);
+char	*_ft_strcpy(char *src, char *dest, int debut, int fin);
 char	*extract_symbol_token(char *str, int *i);
 t_token	*create_token(void *content);
 void	ft_lstadd_backs(t_token **tokens, t_token *new);
@@ -99,7 +110,42 @@ void    expansion(t_token *tokens);
 char    *expand_variable_w(char *value);
 char    *expand_variable_dq(char *value);
 
-int	builtin_echo(t_cmd *cmd);
-int execute_command(t_cmd *cmd);
+/* Execution */
+int		exec_single(t_cmd *cmd);
+int		exec_command(t_cmd *cmd);
+
+/* -> Builtin */
+int		builtin_echo(t_cmd *cmd);
+int		builtin_cd(t_cmd *cmd);
+int		is_builtin(char *cmd);
+int		exec_builtin(t_cmd *cmd);
+
+/* -> Redirections */
+int		open_infile(const char *file);
+int		open_outfile(const char *file, bool append);
+int		dup2_close(int fd, int target);
+int		setup_redirs(t_cmd *cmd);
+
+/* -> Pipes */
+int		create_pipe(int pipefd[2]);
+void	close_pipe(int pipefd[2]);
+int		count_pipes(t_cmd *cmd);
+void	setup_pipe_in(int pipefd[2]);
+void	setup_pipe_out(int pipefd[2]);
+
+/* -> External*/
+char	*find_cmd_path(const char *cmd);
+int		exec_external(t_cmd *cmd);
+void	print_cmd_not_found(const char *cmd);
+
+/* -> Pipeline */
+void	exec_pipe_cmd(t_cmd *cmd, int in_fd, int pipefd[2]);
+int		exec_pipeline(t_cmd *cmd);
+
+/* -> Utils */
+void	ft_free_array(char **array);
+int		ft_strcmp(char *s1, char *s2);
+
+extern char	**environ;
 
 #endif

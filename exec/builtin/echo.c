@@ -1,6 +1,6 @@
-#include "../minishell.h"
+#include "../../minishell.h"
 
-static bool is_n_flag(const char *arg)
+static bool	is_n_flag(const char *arg)
 {
 	int	i;
 
@@ -16,13 +16,24 @@ static bool is_n_flag(const char *arg)
 	return (true);
 }
 
+static void	print_args(char **args, int i)
+{
+	while (args[i])
+	{
+		ft_putstr_fd(args[i], STDOUT_FILENO);
+		if (args[i + 1])
+			ft_putchar_fd(' ', STDOUT_FILENO);
+		i++;
+	}
+}
+
 int	builtin_echo(t_cmd *cmd)
 {
 	int		i;
 	bool	newline;
 
 	if (!cmd || !cmd->arguments)
-		return (1);
+		return (GENERAL_ERROR);
 	i = 1;
 	newline = true;
 	while (cmd->arguments[i] && is_n_flag(cmd->arguments[i]))
@@ -30,15 +41,8 @@ int	builtin_echo(t_cmd *cmd)
 		newline = false;
 		i++;
 	}
-	while (cmd->arguments[i])
-	{
-		printf("%s", cmd->arguments[i]);
-		if (cmd->arguments[i + 1])
-			printf(" ");
-		i++;
-	}
+	print_args(cmd->arguments, i);
 	if (newline)
-		printf("\n");
-	return (0);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	return (SUCCESS);
 }
-

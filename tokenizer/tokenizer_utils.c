@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	ft_countword(char *str)
+int	_ft_countword(char *str)
 {
 	int	i;
 	int	count;
@@ -49,7 +49,7 @@ int	ft_countword(char *str)
 	return (count);
 }
 
-char	*ft_strcpy(char *src, char *dest, int debut, int fin)
+char	*_ft_strcpy(char *src, char *dest, int debut, int fin)
 {
 	int	i;
 
@@ -78,11 +78,11 @@ char	*extract_symbol_token(char *str, int *i)
 	}
 		
 	token = (char *)malloc(sizeof(char) * (*i - start + 1));
-	token = ft_strcpy(str, token, start, *i - 1);
+	token = _ft_strcpy(str, token, start, *i - 1);
 	return (token);
 }
 
-void	ft_free(char **result)
+void	_ft_free(char **result)
 {
 	int	i;
 

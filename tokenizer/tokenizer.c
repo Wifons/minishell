@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:24:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/20 23:36:18 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/23 18:47:27 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ char	*extract_full_token(char *str, int *i)
 			j++;
 	}
 	token = (char *)malloc(sizeof(char) * (j - start + 1));
-	token = ft_strcpy(str, token, start, j - 1);
+	token = _ft_strcpy(str, token, start, j - 1);
 	*i = j;
 	return (token);
 }
 
-char	**ft_set_string(char *str, char **result, int *i, int *count)
+static char	**ft_set_string(char *str, char **result, int *i, int *count)
 {
 	while (str[*i] && str[*i] == ' ')
 		(*i)++;
@@ -65,7 +65,7 @@ t_token	*tokenize(char *str)
 	if (verif_input(str) || ft_count_quote(str))
 		return (NULL);
 	str = ft_clean_comment(str);
-	result = (char **)malloc(sizeof(char *) * (ft_countword(str) + 1));
+	result = (char **)malloc(sizeof(char *) * (_ft_countword(str) + 1));
 	if (!result)
 		return (NULL);
 	while (str[i] != '\0')
@@ -74,7 +74,7 @@ t_token	*tokenize(char *str)
 			i++;
 		ft_set_string(str, result, &i, &compteur);
 	}
-	result[ft_countword(str)] = 0;
+	result[_ft_countword(str)] = 0;
 	free(str);
 	return (parse_line(result));
 }
