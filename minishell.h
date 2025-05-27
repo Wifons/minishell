@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/25 20:47:56 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:07:04 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,16 +35,14 @@
 
 typedef enum 
 {
-    WORD,           // 0
-    SINGLEQUOTE,    // 1
-    DOUBLEQUOTE,    // 2
-    L_REDIRECT,     // 3
-    R_REDIRECT,     //4
-    HEREDOC,        //5
-    APP_REDIRECT,   //6
-    START_SUBSHELL, //7
-    END_SUBSHELL,   //8
-    PIPE            //9
+    WORD,
+    L_REDIRECT,
+    R_REDIRECT,
+    HEREDOC,
+    APP_REDIRECT,
+    START_SUBSHELL,
+    END_SUBSHELL,
+    PIPE
 } t_type;
 
 typedef struct token
@@ -60,6 +58,7 @@ typedef struct cmd
     char    *l_redirect;
     char    *r_redirect;
     char    *app_redirect;
+    char    *heredoc_buff;
     int     previous_pipe;
     int     next_pipe;
 
@@ -101,8 +100,9 @@ void print_cmd(t_cmd *cmd);
 void	add_l_red(t_cmd *cmd, t_token **tokens);
 void	add_r_red(t_cmd *cmd, t_token **tokens);
 void	add_app_red(t_cmd *cmd, t_token **tokens);
+void	add_heredoc(t_cmd *cmd, t_token **tokens);
 t_cmd   *parse_cmd(t_token *tokens);
-void print_cmd(t_cmd *cmd); // a retirer juste pour print 
+void    ft_free_cmd_list(t_cmd *cmd);
 void	clear_quote(t_token *tokens);
 
 /* Expansion */
@@ -146,6 +146,11 @@ int		exec_pipeline(t_cmd *cmd);
 void	ft_free_array(char **array);
 int		ft_strcmp(char *s1, char *s2);
 
+
 extern char	**environ;
+
+/* Heredoc test*/
+int verif_heredoc(t_token *tokens);
+int setup_heredoc(t_cmd *cmd);
 
 #endif

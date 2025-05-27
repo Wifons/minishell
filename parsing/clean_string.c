@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 22:14:49 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/23 15:09:17 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/26 23:46:11 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	ft_quote(char *str)
 	}
 	return (0);
 }
+
 void	clear_quote(t_token *tokens)
 {
 	t_token	*tmp;

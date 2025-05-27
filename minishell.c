@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 09:24:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/25 20:56:35 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/26 02:00:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,20 +28,15 @@ int	main(void)
 			free(input);
 			break ;
 		}
-		//add_history(input);
-		tokens = tokenize(input);
+		add_history(input);
+		if (input)
+			tokens = tokenize(input);
 		if (tokens)
 		{
 			cmd = parse_cmd(tokens);
 			exec_command(cmd);
+			ft_free_cmd_list(cmd);
 		}
-		//ft_free_cmd_lst(cmd);
-		/*if (tokens)
-		{
-			print_tokens(tokens);
-			ft_clean(tokens);
-		}*/
 	}
-	//clean_minishell();
 	return (0);
 }

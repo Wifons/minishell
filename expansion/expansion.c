@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:05:37 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/23 14:37:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/26 02:10:46 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void    expansion(t_token *tokens)
     tmp = tokens;
     while(tmp)
     {
-        if (tmp->type == WORD || tmp->type == DOUBLEQUOTE || tmp->type == SINGLEQUOTE)
+        if (tmp->type == WORD)
             tmp->value = expand_variable_dq(tmp->value);
         tmp = tmp->next;
     }
@@ -34,7 +34,7 @@ char    *expand_and_delete(char    *value, char *variable, char *var_env)
     
     j = 0;
     i = 0;
-    while ((value[i] != '$' && value[i]) || check_in_quote(value, i) == 1)
+    while (value[i] != '$' && value[i] && check_in_quote(value, i) != 1)
         i++;
     j = i + 1 + ft_strlen(variable);
     

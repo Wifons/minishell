@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:16:18 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/23 14:44:35 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/26 23:48:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,11 +52,7 @@ void	add_type(t_token *tokens)
 
 t_type	get_type(t_token *tokens)
 {
-	if (ft_strchr(tokens->value,'\''))
-		return (SINGLEQUOTE);
-	else if (ft_strchr(tokens->value,'\"'))
-		return (DOUBLEQUOTE);
-	else if(tokens->value[0] == '<' && tokens->value[1] == '\0')
+	if (tokens->value[0] == '<' && tokens->value[1] == '\0')
 		return (L_REDIRECT);
 	else if(tokens->value[0] == '>' && tokens->value[1] == '\0')
 		return (R_REDIRECT);
@@ -94,4 +90,3 @@ t_token	*parse_line(char **str)
 	clear_quote(list);
 	return (list);
 }
-//echo < "toto va s'appeler" titi | donc >> yui << wer

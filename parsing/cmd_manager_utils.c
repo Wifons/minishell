@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:24:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/21 01:25:50 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:01:01 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,4 +54,10 @@ void	add_app_red(t_cmd *cmd, t_token **tokens)
 {
 	*tokens = (*tokens)->next;
 	cmd->app_redirect = ft_strdup((*tokens)->value);
+}
+
+void	add_heredoc(t_cmd *cmd, t_token **tokens)
+{
+	*tokens = (*tokens)->next;
+	cmd->heredoc_buff = ft_strdup((*tokens)->value);
 }

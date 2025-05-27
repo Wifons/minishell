@@ -6,11 +6,12 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/19 20:32:45 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/21 15:13:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/26 02:13:16 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 void	ft_clean(t_token *tokens)
 {
 	t_token	*tmp;
@@ -80,43 +81,3 @@ void print_cmd(t_cmd *cmd)
         print_cmd(cmd->next);
     }
 }
-
-/*
-void print_cmd(t_cmd *cmd)
-{
-    int i = 0;
-
-	while (cmd)
-	{
-		printf("=== Commande %d ===\n", i);
-
-		// Arguments
-		printf("Arguments : ");
-		if (cmd->arguments)
-		{
-			for (int j = 0; cmd->arguments[j]; j++)
-				printf("\"%s\" ", cmd->arguments[j]);
-		}
-		else
-			printf("(aucun)");
-
-		printf("\n");
-
-		// Redirections
-		if (cmd->l_redirect)
-			printf("Redirection entrée  (<) : %s\n", cmd->l_redirect);
-		if (cmd->r_redirect)
-			printf("Redirection sortie (>) : %s\n", cmd->r_redirect);
-		if (cmd->app_redirect)
-			printf("Redirection append (>>) : %s\n", cmd->app_redirect);
-
-		// Pipes
-		printf("Previous pipe : %d\n", cmd->previous_pipe);
-		printf("Next pipe     : %d\n", cmd->next_pipe);
-
-		printf("\n");
-		cmd = cmd->next;
-		i++;
-	}
-}
-    */
