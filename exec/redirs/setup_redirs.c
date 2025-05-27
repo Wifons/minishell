@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:06 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 22:11:30 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:33:01 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,9 +49,8 @@ static int	setup_append_redir(const char *file)
 int setup_redirs(t_cmd *cmd)
 {
 	if (cmd->heredoc_buff)
-		printf("%s", cmd->heredoc_buff);
-		// if (setup_heredoc(cmd) == -1)
-		// 	return (-1);
+		if (setup_heredoc(cmd) == -1)
+			return (-1);
 	if (cmd->l_redirect)
 		if (setup_input_redir(cmd->l_redirect) == -1)
 			return (-1);

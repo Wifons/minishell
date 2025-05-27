@@ -6,6 +6,7 @@ static int create_heredoc_pipe(char *delimiter)
 	char *line;
 	pid_t pid;
 
+	// On crée le pipe
 	if (create_pipe(pipefd) == -1)
 		return (-1);
 	pid = fork();

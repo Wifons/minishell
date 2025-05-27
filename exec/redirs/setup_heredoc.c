@@ -4,7 +4,8 @@ static int create_heredoc_pipe(char *heredoc_content)
 {
 	int pipefd[2];
 	pid_t pid;
-
+	int status;
+	
 	// On crée le pipe
 	if (create_pipe(pipefd) == -1)
 		return (-1);
@@ -23,7 +24,7 @@ static int create_heredoc_pipe(char *heredoc_content)
 		exit(SUCCESS);
 	}
 	close(pipefd[PIPE_WRITE]);
-	wait(NULL);
+	waitpid(pid, &status, 0);
 	return (pipefd[PIPE_READ]);
 }
 

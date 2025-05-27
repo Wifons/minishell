@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:57:51 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 21:25:33 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/27 22:33:59 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ char    *ft_heredoc(char    *eof_hd)
             break ;
         new_value = ft_strjoin(new_value, gnlreturn);
     }
-    printf("After :%s\n", new_value);
     free(eof_hd);
     return (new_value);
 }
