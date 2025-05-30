@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:43 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:07:44 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/28 22:17:29 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Fork a child process for a command in the pipeline */
-static int	fork_cmd(t_cmd *cmd, int in_fd, int pipefd[2])
+static int	fork_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 {
 	pid_t	pid;
 
@@ -24,7 +24,7 @@ static int	fork_cmd(t_cmd *cmd, int in_fd, int pipefd[2])
 		return (-1);
 	}
 	if (pid == 0)
-		exec_pipe_cmd(cmd, in_fd, pipefd);
+		exec_pipe_cmd(shell, cmd, in_fd, pipefd);
 	return (SUCCESS);
 }
 
@@ -57,7 +57,7 @@ static int	wait_pipeline(int n_cmds)
 }
 
 /* Execute all commands in the pipeline */
-static int	exec_loop(t_cmd *cmd, int *n_cmds)
+static int	exec_loop(t_shell *shell, t_cmd *cmd, int *n_cmds)
 {
 	int	pipefd[2];
 	int	in_fd;
@@ -67,7 +67,7 @@ static int	exec_loop(t_cmd *cmd, int *n_cmds)
 	{
 		if (cmd->next_pipe && create_pipe(pipefd) == -1)
 			return (GENERAL_ERROR);
-		if (fork_cmd(cmd, in_fd, pipefd) == -1)
+		if (fork_cmd(shell, cmd, in_fd, pipefd) == -1)
 			return (GENERAL_ERROR);
 		if (cmd->next_pipe)
 			update_pipe_fd(&in_fd, pipefd);
@@ -80,12 +80,12 @@ static int	exec_loop(t_cmd *cmd, int *n_cmds)
 }
 
 /* Main pipeline execution - fork all commands and wait */
-int	exec_pipeline(t_cmd *cmd)
+int	exec_pipeline(t_shell *shell, t_cmd *cmd)
 {
 	int	n_cmds;
 
 	n_cmds = 0;
-	if (exec_loop(cmd, &n_cmds) == GENERAL_ERROR)
+	if (exec_loop(shell, cmd, &n_cmds) == GENERAL_ERROR)
 		return (GENERAL_ERROR);
 	return (wait_pipeline(n_cmds));
 }

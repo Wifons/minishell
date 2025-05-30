@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:45:22 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 21:57:38 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/27 23:39:53 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,6 @@ void    ft_free_cmd_list(t_cmd *cmd)
     t_cmd	*tmp;
 	int i;
 	
-	
-	
 	while (cmd)
 	{
 		i = 0;
@@ -45,6 +43,8 @@ void    ft_free_cmd_list(t_cmd *cmd)
 			i++;
 		}
 		free(tmp->arguments);
+        if (tmp->heredoc_buff)
+            free(tmp->heredoc_buff);
 		free(tmp);
 	}
 }
@@ -56,6 +56,7 @@ void    init_cmd(t_cmd *cmd)
     cmd->l_redirect = NULL;
     cmd->r_redirect = NULL;
     cmd->app_redirect = NULL;
+    cmd->heredoc_buff = NULL;
     cmd->previous_pipe = 0;
     cmd->next_pipe = 0;
     cmd->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:07:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/29 20:39:50 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,19 @@ static int	change_dir(char *path)
 {
 	if (chdir(path) == -1)
 	{
-		ft_putstr_fd("Minishell : cd: ", STDERR_FILENO);
+		ft_putstr_fd("Minishell: cd: ", STDERR_FILENO);
 		ft_putstr_fd(path, STDERR_FILENO);
 		ft_putstr_fd(": No such file or directory\n", STDERR_FILENO);
-		return (GENERAL_ERROR);
+		return (-1);
 	}
-	return (SUCCESS);
+	return (0);
 }
 
-static char	*get_home_path(void)
+static char	*get_home_path(char **env)
 {
 	char	*path;
 
-	path = getenv("HOME");
+	path = ft_env_get(env, "HOME");
 	if (!path)
 	{
 		ft_putstr_fd("Minishell : cd: HOME not set\n", STDERR_FILENO);
@@ -37,19 +37,40 @@ static char	*get_home_path(void)
 	return (path);
 }
 
-int	builtin_cd(t_cmd *cmd)
+static void	update_pwd_vars(t_shell *shell)
+{
+	char	*old_pwd;
+	char	*new_pwd;
+
+	old_pwd = ft_env_get(shell->envp, "PWD");
+	if (old_pwd)
+		ft_env_set(&shell->envp, "OLDPWD", old_pwd);
+	new_pwd = getcwd(NULL, 0);
+	if (new_pwd)
+	{
+		ft_env_set(&shell->envp, "PWD", new_pwd);
+		free(new_pwd);
+	}
+}
+
+int	builtin_cd(t_shell *shell, t_cmd *cmd)
 {
 	char	*path;
 
 	if (!cmd || !cmd->arguments)
-		return (GENERAL_ERROR);
+		return (-1);
 	if (!cmd->arguments[1])
 	{
-		path = get_home_path();
+		path = get_home_path(shell->envp);
 		if (!path)
-			return (GENERAL_ERROR);
+			return (-1);
 	}
 	else
 		path = cmd->arguments[1];
-	return (change_dir(path));
+	if (change_dir(path) == SUCCESS)
+	{
+		update_pwd_vars(shell);
+		return (SUCCESS);
+	}
+	return (-1);
 }

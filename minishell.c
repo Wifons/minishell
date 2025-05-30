@@ -3,21 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 09:24:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:00:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/29 19:19:11 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*cmd;
-	
+	t_shell shell;
+
+	(void)argc;
+	(void)argv;
+	shell.envp = ft_env_dup(envp);
+	env_refresh(&shell.envp);
 	while (1)
 	{
 		input = readline("minishell$ ");
@@ -34,7 +39,7 @@ int	main(void)
 		if (tokens)
 		{
 			cmd = parse_cmd(tokens);
-			exec_command(cmd);
+			exec_command(&shell, cmd);
 			ft_free_cmd_list(cmd);
 		}
 	}

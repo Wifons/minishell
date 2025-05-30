@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 22:14:49 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 23:46:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/27 23:42:18 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char *remove_quotes(char *input)
 
 	i = 0;
 	j = 0;
+	quote = 0;
 	result = malloc(sizeof(char) * ft_strlen(input) + 1);
 	while (input[i])
 	{
@@ -67,6 +68,7 @@ char *remove_quotes(char *input)
 		i++;
 	}
 	result[j] = '\0';
+	free(input);
 	return (result);
 }
 

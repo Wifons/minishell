@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 00:26:24 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 20:12:45 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/05/27 23:26:51 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,11 @@ int parsing(t_token *tokens)
         return (1);
     }
     verif_heredoc(tokens);
+    if (tokens->type == HEREDOC)
+    {
+        ft_clean(tokens);
+        return (1);
+    }
     return (0);
 }
 

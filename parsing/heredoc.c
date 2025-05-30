@@ -3,28 +3,49 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:57:51 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 22:33:59 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/28 00:37:40 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
+int ft_cmp_heredoc(char *eof, char  *returngnl)
+{
+    size_t  len;
+
+    len = ft_strlen(returngnl);
+    if (len > 0 && returngnl[len -1] == '\n')
+        returngnl[len - 1] = '\0';
+    if (ft_strcmp(eof, returngnl) == 0)
+        return (1);
+    returngnl[len - 1] = '\n';
+    return (0);
+}
 char    *ft_heredoc(char    *eof_hd)
 {
     char    *new_value;
     char    *gnlreturn;
-
-    new_value = "\0";
+    char    *tmp;
+    
+    new_value = ft_strdup("\0");
     gnlreturn = NULL;
     while (1)
     {
+        write(1, "> ", 2);
         gnlreturn = get_next_line(0);
-        if (ft_strncmp(eof_hd, gnlreturn, ft_strlen(eof_hd)) == 0)
+        if (ft_cmp_heredoc(eof_hd, gnlreturn))
+        {
+            free(gnlreturn);
             break ;
+        }
+        tmp = new_value;
         new_value = ft_strjoin(new_value, gnlreturn);
+        free(gnlreturn);
+        if (new_value)
+            free(tmp);
     }
     free(eof_hd);
     return (new_value);
@@ -51,7 +72,8 @@ int verif_heredoc(t_token *tokens)
                 return (1);
             }
             tmp = tmp->next;
-            tmp->value = ft_heredoc(tmp->value); 
+            tmp->value = remove_quotes(tmp->value);
+            tmp->value = ft_heredoc(tmp->value);
             
         }
         tmp = tmp->next;
