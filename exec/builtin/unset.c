@@ -1,16 +1,18 @@
 #include "../../minishell.h"
 
-int builtin_unset(t_shell *shell, char **args)
+int builtin_unset(t_shell *sh, char **args)
 {
-	int i;
+	int	i;
 
+	if (!sh || !sh->env)
+		return (-1);
 	if (!args[1])
-		return (SUCCESS);
+		return (0);
 	i = 1;
 	while (args[i])
 	{
-		ft_env_remove(&shell->envp, args[i]);
+		env_unset(sh->env, args[i]);
 		i++;
 	}
-	return (SUCCESS);
+	return (0);
 }

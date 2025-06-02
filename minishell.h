@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/30 13:54:32 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/02 14:52:36 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,17 +65,22 @@ typedef struct cmd
 	struct cmd *next;
 } t_cmd;
 
+typedef struct s_env_var
+{
+	char	*name;
+	char	*value;
+} t_env_var;
+
+typedef struct	s_env_manager
+{
+	t_list	*vars;
+	size_t	count;
+} t_env_manager;
+
 typedef struct s_shell
 {
-	char **envp;
+	t_env_manager	*env;
 } t_shell;
-
-typedef struct s_str_arr
-{
-	char	**data;
-	size_t	len;
-	size_t	cap;
-} t_str_arr;
 
 /* Spliting*/
 t_token *tokenize(char *str);
@@ -128,8 +133,8 @@ int exec_command(t_shell *shell, t_cmd *cmd);
 
 /* -> Builtin */
 int builtin_echo(t_cmd *cmd);
-int builtin_cd(t_shell *shell, t_cmd *cmd);
 int builtin_export(t_shell *shell, char **args);
+int builtin_cd(t_shell *shell, t_cmd *cmd);
 int builtin_exit(t_shell *shell, char **args);
 int	builtin_pwd(void);
 int builtin_unset(t_shell *shell, char **args);
@@ -160,19 +165,28 @@ void print_cmd_not_found(const char *cmd);
 void exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2]);
 int exec_pipeline(t_shell *shell, t_cmd *cmd);
 
-/* -> Utils */
-void ft_free_array(char **array);
+void	env_free(t_env_manager *env);
+char	*env_get(t_env_manager *env, const char *name);
+t_env_manager	*env_init(char **envp);
+int	env_set(t_env_manager *env, const char *name, const char *val);
+int	env_unset(t_env_manager *env, const char *name);
+int	env_var_cmp_name(void *var_ptr, void *name_ref);
+int	env_var_cmp_var(void *var1_ptr, void *var2_ptr);
+void	env_var_free(void *var_ptr);
+int	env_var_is_exportable(void *var_ptr);
+char	**env_build_arr(t_env_manager *env);
+char	*env_build_str(t_env_var *var);
+
 int ft_strcmp(char *s1, char *s2);
-char	**ft_env_dup(char **env);
-char	**ft_env_dup_sort(char **env);
-int	ft_env_len(char **env);
-int ft_env_set(char ***env, char *name, char *value);
-int	ft_env_find(char **env, const char *name);
-char	*ft_env_get(char **env, char *name);
-int env_refresh(char ***env);
-char	**env_filter(char **env);
-int ft_env_remove(char ***env, char *name);
-int is_valid_env_name(char *name);
+void ft_free_array(char **array);
+t_list	*ft_lstfind(t_list *lst, void *data_ref, int (*cmp)(void *, void *));
+void	ft_lstsort(t_list **lst, int (*cmp)(void *, void *));
+t_list	*ft_lstsort_dup(t_list *lst, int (*cmp)(void *, void *));
+void	ft_lstdelone_if(t_list **lst, void *data_ref, int (*cmp)(void *, void *), void (*del)(void *));
+void	ft_lstswap(t_list *a, t_list *b);
+t_list	*ft_lstdup(t_list *lst);
+int	ft_lstiter_ctx(t_list *lst, int (*f)(void *, void *), void *ctx);
+int	ft_lstcount_if(t_list *lst, int (*f)(void *));
 
 /* Heredoc test*/
 int verif_heredoc(t_token *tokens);

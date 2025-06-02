@@ -6,11 +6,25 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/28 22:18:01 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/02 15:10:21 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	env_update_underscore(t_shell *sh, t_cmd *cmd)
+{
+	char	*last_arg;
+	int		i;
+
+	if (!sh || !cmd || !cmd->arguments || !cmd->arguments[0])
+		return ;
+	i = 0;
+	while (cmd->arguments[i])
+		i++;
+	last_arg = cmd->arguments[i - 1];
+	env_set(sh->env, "_", last_arg);
+}
 
 /* Save current stdin/stdout to restore them later */
 static int	save_std_fds(int *stdin_fd, int *stdout_fd)
@@ -50,6 +64,7 @@ int	exec_command(t_shell *shell, t_cmd *cmd)
 		return (SUCCESS);
 	if (save_std_fds(&saved_stdin, &saved_stdout) == -1)
 		return (GENERAL_ERROR);
+	env_update_underscore(shell, cmd);
 	status = choose_exec_mode(shell, cmd);
 	restore_std_fds(saved_stdin, saved_stdout);
 	return (status);

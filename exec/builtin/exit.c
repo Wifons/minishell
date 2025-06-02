@@ -28,10 +28,14 @@ int builtin_exit(t_shell *shell, char **args)
 
 	ft_putendl_fd("exit", STDERR_FILENO);
 	if (!args[1])
+	{
+		env_free(shell->env);
 		exit(SUCCESS);
+	}
 	if (!is_numeric(args[1]))
 	{
 		ft_putendl_fd("exit: numeric argument required", STDERR_FILENO);
+		env_free(shell->env);
 		exit(2);
 	}
 	if (args[2])
@@ -40,6 +44,6 @@ int builtin_exit(t_shell *shell, char **args)
 		return (GENERAL_ERROR);
 	}
 	code = ft_atoi(args[1]);
-	ft_free_array(shell->envp);
+	env_free(shell->env);
 	exit(code);
 }

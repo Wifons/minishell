@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/29 20:39:50 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/02 21:19:52 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static int	change_dir(char *path)
 	return (0);
 }
 
-static char	*get_home_path(char **env)
+static char	*get_home_path(t_env_manager *env)
 {
 	char	*path;
 
-	path = ft_env_get(env, "HOME");
+	path = env_get(env, "HOME");
 	if (!path)
 	{
 		ft_putstr_fd("Minishell : cd: HOME not set\n", STDERR_FILENO);
@@ -37,23 +37,23 @@ static char	*get_home_path(char **env)
 	return (path);
 }
 
-static void	update_pwd_vars(t_shell *shell)
+static void	update_pwd_vars(t_shell *sh)
 {
 	char	*old_pwd;
 	char	*new_pwd;
 
-	old_pwd = ft_env_get(shell->envp, "PWD");
+	old_pwd = env_get(sh->env, "PWD");
 	if (old_pwd)
-		ft_env_set(&shell->envp, "OLDPWD", old_pwd);
+		env_set(sh->env, "OLDPWD", old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
-		ft_env_set(&shell->envp, "PWD", new_pwd);
+		env_set(sh->env, "PWD", new_pwd);
 		free(new_pwd);
 	}
 }
 
-int	builtin_cd(t_shell *shell, t_cmd *cmd)
+int	builtin_cd(t_shell *sh, t_cmd *cmd)
 {
 	char	*path;
 
@@ -61,7 +61,7 @@ int	builtin_cd(t_shell *shell, t_cmd *cmd)
 		return (-1);
 	if (!cmd->arguments[1])
 	{
-		path = get_home_path(shell->envp);
+		path = get_home_path(sh->env);
 		if (!path)
 			return (-1);
 	}
@@ -69,7 +69,7 @@ int	builtin_cd(t_shell *shell, t_cmd *cmd)
 		path = cmd->arguments[1];
 	if (change_dir(path) == SUCCESS)
 	{
-		update_pwd_vars(shell);
+		update_pwd_vars(sh);
 		return (SUCCESS);
 	}
 	return (-1);

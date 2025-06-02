@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:33 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/29 19:32:00 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/01 20:36:33 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,15 @@ static void exec_cmd(t_shell *sh, t_cmd *cmd, char *path)
 {
 	char **exec_env;
 
-	exec_env = env_filter(sh->envp);
+	exec_env = env_build_arr(sh->env);
 	if (!exec_env)
-		exec_env = sh->envp;
+	{
+		exec_env = malloc(sizeof(char *));
+		if (exec_env)
+			exec_env[0] = NULL;
+	}
 	execve(path, cmd->arguments, exec_env);
-	if (exec_env != sh->envp)
-		ft_free_array(exec_env);
+	ft_free_array(exec_env);
 	perror("execve");
 	exit(EXEC_ERROR);
 }
