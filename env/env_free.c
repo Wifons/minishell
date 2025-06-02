@@ -12,10 +12,10 @@ void	env_var_free(void *var_ptr)
 	free(var);
 }
 
-void	env_free(t_env_manager *env)
+void	env_free(t_list *env)
 {
 	if (!env)
 		return ;
-	ft_lstclear(&env->vars, env_var_free);
+	ft_lstclear(&env, env_var_free);
 	free(env);
 }

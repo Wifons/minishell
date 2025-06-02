@@ -45,7 +45,7 @@ static int	update_existing_var(t_env_var *var, const char *value)
 	return (0);
 }
 
-int	env_set(t_env_manager *env, const char *name, const char *val)
+int	env_set(t_list *env, const char *name, const char *val)
 {
 	t_list		*existing;
 	t_env_var	*new_var;
@@ -53,7 +53,7 @@ int	env_set(t_env_manager *env, const char *name, const char *val)
 
 	if (!env || !name)
 		return (-1);
-	existing = ft_lstfind(env->vars, (void *)name, env_var_cmp_name);
+	existing = ft_lstfind(env, (void *)name, env_var_cmp_name);
 	if (existing)
 		return (update_existing_var((t_env_var *)existing->content, val));
 	new_var = create_env_var(name, val);
@@ -65,6 +65,6 @@ int	env_set(t_env_manager *env, const char *name, const char *val)
 		env_var_free(new_var);
 		return (-1);
 	}
-	ft_lstadd_back(&env->vars, new_node);
+	ft_lstadd_back(&env, new_node);
 	return (0);
 }

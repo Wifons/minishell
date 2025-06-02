@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/02 14:52:36 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/02 22:51:43 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,9 @@ typedef struct s_env_var
 	char	*value;
 } t_env_var;
 
-typedef struct	s_env_manager
-{
-	t_list	*vars;
-	size_t	count;
-} t_env_manager;
-
 typedef struct s_shell
 {
-	t_env_manager	*env;
+	t_list	*env;
 } t_shell;
 
 /* Spliting*/
@@ -165,16 +159,16 @@ void print_cmd_not_found(const char *cmd);
 void exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2]);
 int exec_pipeline(t_shell *shell, t_cmd *cmd);
 
-void	env_free(t_env_manager *env);
-char	*env_get(t_env_manager *env, const char *name);
-t_env_manager	*env_init(char **envp);
-int	env_set(t_env_manager *env, const char *name, const char *val);
-int	env_unset(t_env_manager *env, const char *name);
+void	env_free(t_list *env);
+char	*env_get(t_list *env, const char *name);
+t_list	*env_init(char **envp);
+int	env_set(t_list *env, const char *name, const char *val);
+int	env_unset(t_list *env, const char *name);
 int	env_var_cmp_name(void *var_ptr, void *name_ref);
 int	env_var_cmp_var(void *var1_ptr, void *var2_ptr);
 void	env_var_free(void *var_ptr);
 int	env_var_is_exportable(void *var_ptr);
-char	**env_build_arr(t_env_manager *env);
+char	**env_build_arr(t_list *env);
 char	*env_build_str(t_env_var *var);
 
 int ft_strcmp(char *s1, char *s2);

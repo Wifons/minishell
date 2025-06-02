@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/02 21:19:52 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/02 22:52:04 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static int	change_dir(char *path)
 	return (0);
 }
 
-static char	*get_home_path(t_env_manager *env)
+static char	*get_home_path(t_list *env)
 {
 	char	*path;
 

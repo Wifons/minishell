@@ -27,7 +27,7 @@ static int	parse_env_str(const char *str, char **name, char **val)
 	return (0);
 }
 
-static int	add_env_str(t_env_manager *env, const char *str)
+static int	add_env_str(t_list *env, const char *str)
 {
 	char	*name;
 	char	*val;
@@ -41,16 +41,14 @@ static int	add_env_str(t_env_manager *env, const char *str)
 	return (res);
 }
 
-t_env_manager	*env_init(char **envp)
+t_list	*env_init(char **envp)
 {
-	t_env_manager	*env;
+	t_list	*env;
 	int						i;
 
-	env = malloc(sizeof(t_env_manager));
+	env = malloc(sizeof(t_list));
 	if (!env)
 		return (NULL);
-	env->vars = NULL;
-	env->count = 0;
 	if (!envp)
 		return (env);
 	i = 0;

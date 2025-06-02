@@ -20,13 +20,13 @@ static void	print_declared_var(void *data)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-static int	print_all_vars(t_env_manager *env)
+static int	print_all_vars(t_list *env)
 {
 	t_list	*sorted;
 
-	if (!env || !env->vars)
+	if (!env)
 		return (-1);
-	sorted = ft_lstsort_dup(env->vars, env_var_cmp_var);
+	sorted = ft_lstsort_dup(env, env_var_cmp_var);
 	if (!sorted)
 		return (-1);
 	ft_lstiter(sorted, print_declared_var);
@@ -82,7 +82,7 @@ static int	env_is_valid_name(const char *name)
 	return (1);
 }
 
-static int	export_single_var(t_env_manager *env, char *arg)
+static int	export_single_var(t_list *env, char *arg)
 {
 	char	*name;
 	char	*value;

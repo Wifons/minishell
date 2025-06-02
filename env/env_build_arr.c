@@ -20,23 +20,23 @@ static int	add_var(void *data, void *ctx)
 	return (0);
 }
 
-char	**env_build_arr(t_env_manager *env)
+char	**env_build_arr(t_list *env)
 {
 	char	**arr;
 	int		count;
 	int		i;
 	void	*ctx[2];
 
-	if (!env || !env->vars)
+	if (!env)
 		return (NULL);
-	count = ft_lstcount_if(env->vars, env_var_is_exportable);
+	count = ft_lstcount_if(env, env_var_is_exportable);
 	arr = malloc(sizeof(char *) * (count + 1));
 	if (!arr)
 		return (NULL);
 	i = 0;
 	ctx[0] = arr;
 	ctx[1] = &i;
-	if (ft_lstiter_ctx(env->vars, add_var, ctx) != 0)
+	if (ft_lstiter_ctx(env, add_var, ctx) != 0)
 	{
 		ft_free_array(arr);
 		return (NULL);
