@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:02 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/11 23:16:13 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/12 23:14:28 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ int open_outfile(const char *file, bool append)
 		flags = O_CREAT | O_WRONLY | O_APPEND;
 	else
 		flags = O_CREAT | O_WRONLY | O_TRUNC;
-	printf("DEBUG: Opening file '%s' with append=%d\n", file, append);
 	fd = open(file, flags, FILE_PERMS);
 	if (fd == -1)
 	{
 		print_file_error(file);
 		return (-1);
 	}
-	printf("DEBUG: File opened successfully, fd=%d\n", fd);
 	return (fd);
 }

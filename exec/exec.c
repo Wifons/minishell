@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 14:38:04 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/12 23:12:57 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,8 @@ int	exec_command(t_shell *shell, t_cmd *cmd)
 	int	saved_stdout;
 	int	status;
 
-	if (!cmd || !cmd->arguments)
-		return (SUCCESS);
+	// if (!cmd || !cmd->arguments)
+	// 	return (SUCCESS);
 	if (save_std_fds(&saved_stdin, &saved_stdout) == -1)
 		return (GENERAL_ERROR);
 	env_update_underscore(shell, cmd);
