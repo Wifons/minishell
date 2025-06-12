@@ -1,12 +1,18 @@
 #include "../minishell.h"
 
-void	ft_lstswap(t_list *a, t_list *b)
+void	ft_lstswap(t_env_var *a, t_env_var *b)
 {
-	void	*tmp;
+	char	*tmp_name;
+	char	*tmp_value;
 
 	if (!a || !b)
 		return ;
-	tmp = a->content;
-	a->content = b->content;
-	b->content = tmp;
+	tmp_name = a->name;
+	tmp_value = a->value;
+
+	a->name = b->name;
+	a->value = b->value;
+
+	b->name = tmp_name;
+	b->value = tmp_value;
 }

@@ -1,10 +1,10 @@
 #include "../minishell.h"
 
-t_list	*ft_lstdup(t_list *lst)
+t_env_var	*ft_lstdup(t_env_var *lst)
 {
-	t_list	*new_lst;
-	t_list	*new_node;
-	t_list	*cur;
+	t_env_var	*new_lst;
+	t_env_var	*new_node;
+	t_env_var	*cur;
 
 	if (!lst)
 		return (NULL);
@@ -12,13 +12,13 @@ t_list	*ft_lstdup(t_list *lst)
 	cur = lst;
 	while (cur)
 	{
-		new_node = ft_lstnew(cur->content);
+		new_node = ft_lstnew_env(cur->name, cur->value);
 		if (!new_node)
 		{
-			ft_lstclear(&new_lst, NULL);
+			ft_lstclear_env(new_lst);
 			return (NULL);
 		}
-		ft_lstadd_back(&new_lst, new_node);
+		ft_lstadd_back_env(&new_lst, new_node);
 		cur = cur->next;
 	}
 	return (new_lst);

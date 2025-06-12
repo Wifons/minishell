@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:16:18 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 23:48:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/04 16:19:08 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ t_type	get_type(t_token *tokens)
 	return (WORD);
 }
 
-t_token	*parse_line(char **str)
+t_token	*parse_line(t_shell *shell, char **str)
 {
 	t_token	*list = NULL;
 	int i;
@@ -84,9 +84,9 @@ t_token	*parse_line(char **str)
 	}
 	free(str);
 	add_type(list);
-	if (parsing(list))
+	if (parsing(shell, list))
 		return (NULL);
-	expansion(list);
+	expansion(shell, list);
 	clear_quote(list);
 	return (list);
 }

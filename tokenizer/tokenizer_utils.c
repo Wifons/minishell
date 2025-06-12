@@ -12,39 +12,62 @@
 
 #include "../minishell.h"
 
-int	_ft_countword(char *str)
+int	count_symbol_token(char *str, int *i)
+{
+	int	count = 0;
+
+	if ((str[*i] == '<' && str[*i + 1] == '<') ||
+		(str[*i] == '>' && str[*i + 1] == '>') ||
+		(str[*i] == '|'&& str[*i + 1] == '|'))
+	{
+		count++;
+		*i += 2;
+	}
+	else
+	{
+		count++;
+		(*i)++;
+	}
+	return (count);
+}
+int	checking_char(char *str, int *i, int *in_word)
+{
+	int	count;
+
+	count = 0;
+	if (str[*i] == ' ' && !check_in_quote(str, *i))
+	{
+		*in_word = 0;
+		(*i)++;
+		return (0);
+	}
+	if (check_symbol(str, *i) && !check_in_quote(str, *i))
+	{
+		count += count_symbol_token(str, i);
+		*in_word = 0;
+		return (count);
+	}
+	if (*in_word == 0)
+	{
+		count++;
+		*in_word = 1;
+	}
+	(*i)++;
+	return (count);
+}
+
+int	ft_countword_ms(char *str)
 {
 	int	i;
 	int	count;
 	int	in_word;
-	char	tmp;
 
 	i = 0;
 	count = 0;
 	in_word = 0;
 	while (str[i])
 	{
-		if (str[i] == ' ' && !check_in_quote(str, i))
-		{
-			in_word = 0;
-			i++;
-			continue ;
-		}
-		if (check_symbol(str, i) && !check_in_quote(str, i))
-		{
-			count++;
-			tmp = str[i];
-			while (check_symbol(str, i) && str[i] == tmp)
-				i++;
-			in_word = 0;
-			continue ;
-		}
-		if (in_word == 0)
-		{
-			count++;
-			in_word = 1;
-		}
-		i++;
+		count += checking_char(str, &i, &in_word);
 	}
 	return (count);
 }
@@ -68,15 +91,19 @@ char	*extract_symbol_token(char *str, int *i)
 {
 	int		start;
 	int		tmp;
+	int		count_symbol;
 	char	*token;
 
 	start = *i;
 	tmp = str[*i];
+	count_symbol = 0;
 	while (check_symbol(str, *i) && str[*i] == tmp)
 	{
 		(*i)++;
+		count_symbol++;
+		if (count_symbol == 2)
+			break;
 	}
-		
 	token = (char *)malloc(sizeof(char) * (*i - start + 1));
 	token = _ft_strcpy(str, token, start, *i - 1);
 	return (token);

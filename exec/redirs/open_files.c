@@ -3,26 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   open_files.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:02 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:08:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/11 23:16:13 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Print error message for file operations */
-static void	print_file_error(const char *file)
+static void print_file_error(const char *file)
 {
 	ft_putstr_fd("Minishell : ", STDERR_FILENO);
 	perror(file);
 }
 
 /* Open file for reading (< file) */
-int	open_infile(const char *file)
+int open_infile(const char *file)
 {
-	int	fd;
+	int fd;
 
 	fd = open(file, O_RDONLY);
 	if (fd == -1)
@@ -31,18 +31,22 @@ int	open_infile(const char *file)
 }
 
 /* Open file for writing (> file) or appending (>> file) */
-int	open_outfile(const char *file, bool append)
+int open_outfile(const char *file, bool append)
 {
-	int	fd;
-	int	flags;
+	int fd;
+	int flags;
 
-	flags = O_WRONLY | O_CREAT;
 	if (append)
-		flags |= O_APPEND;
+		flags = O_CREAT | O_WRONLY | O_APPEND;
 	else
-		flags |= O_TRUNC;
+		flags = O_CREAT | O_WRONLY | O_TRUNC;
+	printf("DEBUG: Opening file '%s' with append=%d\n", file, append);
 	fd = open(file, flags, FILE_PERMS);
 	if (fd == -1)
+	{
 		print_file_error(file);
+		return (-1);
+	}
+	printf("DEBUG: File opened successfully, fd=%d\n", fd);
 	return (fd);
 }

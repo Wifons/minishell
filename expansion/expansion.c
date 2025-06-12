@@ -6,13 +6,13 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:05:37 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:10:46 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/05 01:06:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void    expansion(t_token *tokens)
+void    expansion(t_shell *shell, t_token *tokens)
 {
     t_token *tmp;
     
@@ -20,7 +20,7 @@ void    expansion(t_token *tokens)
     while(tmp)
     {
         if (tmp->type == WORD)
-            tmp->value = expand_variable_dq(tmp->value);
+            tmp->value = expand_variable_dq(shell, tmp->value);
         tmp = tmp->next;
     }
 }
@@ -37,13 +37,11 @@ char    *expand_and_delete(char    *value, char *variable, char *var_env)
     while (value[i] != '$' && value[i] && check_in_quote(value, i) != 1)
         i++;
     j = i + 1 + ft_strlen(variable);
-    
     tmp = ft_substr(value, 0, i);
     if (var_env)
         new_value = ft_strjoin(tmp, var_env);
     else
         new_value = ft_strdup(tmp);
-
     free(tmp);
     tmp = ft_strjoin(new_value, value + j);
     free(new_value);
@@ -52,7 +50,12 @@ char    *expand_and_delete(char    *value, char *variable, char *var_env)
     free(variable);
     return (new_value);
 }
-
+int is_valid_var(const char *str, int i)
+{
+    if (ft_isalnum(str[i]) || str[i] == '_')
+        return (1);
+    return (0);
+}
 char    *extract_varname(char *str)
 {
     char    *tmp;
@@ -61,7 +64,15 @@ char    *extract_varname(char *str)
 
     i = 0;
     tmp = malloc(sizeof(char) * 100);
-    while (str[i] && str[i] != '$' && str[i] != '\'' && str[i] != '\"')
+    if (ft_isdigit(str[i]))
+    {
+        tmp[0] = str[i];
+        tmp[1] = '\0';
+        extract = ft_strdup(tmp);
+        free(tmp);
+        return (extract);
+    }
+    while (str[i] != '\0' && is_valid_var(str, i))
     {
         tmp[i] = str[i];
         i++;
@@ -72,7 +83,7 @@ char    *extract_varname(char *str)
     return(extract);
 }
 
-char    *expand_variable_dq(char *value)
+char    *expand_variable_dq(t_shell *shell, char *value)
 {
     int i;
     char    *variable;
@@ -81,11 +92,22 @@ char    *expand_variable_dq(char *value)
     i = 0;
     while (value[i])
     {
-        if (value[i] == '$' && check_in_quote(value, i) != 1)
+        if (value[i] == '$' && value[i + 1] == '?')
+        {
+            i++;
+            variable = ft_strdup("?\0");
+            var_env = ft_itoa(shell->global_status);
+            value = expand_and_delete(value, variable, var_env);
+            free(var_env);
+            i = 0;
+            continue ;
+        }
+        else if (value[i] == '$' && value[i + 1] != '\0'
+            && check_in_quote(value, i) != 1 && is_valid_var(value, i + 1))
         {
             i++;
             variable = extract_varname(value + i);
-            var_env = getenv(variable);
+            var_env = env_get(shell->env, variable);
             value = expand_and_delete(value, variable, var_env);
             i = 0;
             continue ;

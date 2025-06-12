@@ -1,6 +1,6 @@
 #include "../minishell.h"
 
-int	env_unset(t_list *env, const char *name)
+int	env_unset(t_env_var *env, const char *name)
 {
 	if (!env || !name)
 		return (-1);

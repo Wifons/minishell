@@ -1,4 +1,5 @@
 #include "../../minishell.h"
+#include <signal.h>
 
 static int create_heredoc_pipe(char *heredoc_content)
 {
@@ -6,7 +7,6 @@ static int create_heredoc_pipe(char *heredoc_content)
 	pid_t pid;
 	int status;
 	
-	// On crée le pipe
 	if (create_pipe(pipefd) == -1)
 		return (-1);
 	pid = fork();

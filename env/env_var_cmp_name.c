@@ -2,14 +2,14 @@
 
 int	env_var_cmp_name(void *var_ptr, void *name_ref)
 {
-	t_env_var *var;
-	char			*name;
+	char	*var;
+	char	*name;
 
-	var = (t_env_var *)var_ptr;
+	var = (char *)var_ptr;
 	name = (char *)name_ref;
-	if (!var || !var->name || !name)
+	if (!var || !name)
 		return (-1);
-	return (ft_strcmp(var->name, name));
+	return (ft_strcmp(var, name));
 }
 
 int	env_var_cmp_var(void *var1_ptr, void *var2_ptr)

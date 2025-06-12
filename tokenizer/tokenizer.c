@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:24:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 01:59:54 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/10 00:02:05 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,26 +55,27 @@ static char	**ft_set_string(char *str, char **result, int *i, int *count)
 	return (result);
 }
 
-t_token	*tokenize(char *str)
+t_token	*tokenize(t_shell *shell, char *str)
 {
 	char	**result;
 	int		compteur;
 	int		i;
 	i = 0;
 	compteur = 0;
-	if (verif_input(str) || ft_count_quote(str))
+	if (!str || verif_input(shell, str) || ft_count_quote(str))
 		return (NULL);
 	str = ft_clean_comment(str);
-	result = (char **)malloc(sizeof(char *) * (_ft_countword(str) + 1));
+	result = (char **)malloc(sizeof(char *) * (ft_countword_ms(str) + 1));
 	if (!result)
 		return (NULL);
+	
 	while (str[i] != '\0')
 	{
 		while (str[i] == ' ')
 			i++;
 		ft_set_string(str, result, &i, &compteur);
 	}
-	result[_ft_countword(str)] = 0;
+	result[ft_countword_ms(str)] = 0;
 	free(str);
-	return (parse_line(result));
+	return (parse_line(shell, result));
 }

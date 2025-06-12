@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:39 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:07:40 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/07 22:54:15 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*check_in_path(char **paths, const char *cmd)
 }
 
 /* Find executable path for command (check PATH env var) */
-char	*find_cmd_path(const char *cmd)
+char	*find_cmd_path(t_env_var *env, const char *cmd)
 {
 	char	*path_env;
 	char	**paths;
@@ -63,9 +63,9 @@ char	*find_cmd_path(const char *cmd)
 		else
 			return (NULL);
 	}
-	path_env = getenv("PATH");
+	path_env = env_get(env, "PATH");
 	if (!path_env)
-		return (NULL);
+		return (ft_strdup(cmd));
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);

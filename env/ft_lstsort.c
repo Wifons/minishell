@@ -1,13 +1,13 @@
 #include "../minishell.h"
 
-static int	bubble_pass(t_list *lst, int (*cmp)(void *, void *))
+static int	bubble_pass(t_env_var *lst, int (*cmp)(void *, void *))
 {
 	int	swapped;
 
 	swapped = 0;
 	while (lst && lst->next)
 	{
-		if (cmp(lst->content, lst->next->content) > 0)
+		if (cmp(lst, lst->next) > 0)
 		{
 			ft_lstswap(lst, lst->next);
 			swapped = 1;
@@ -17,7 +17,7 @@ static int	bubble_pass(t_list *lst, int (*cmp)(void *, void *))
 	return (swapped);
 }
 
-void	ft_lstsort(t_list **lst, int (*cmp)(void *, void *))
+void	ft_lstsort(t_env_var **lst, int (*cmp)(void *, void *))
 {
 	if (!lst || !*lst || !cmp)
 		return ;
@@ -25,9 +25,9 @@ void	ft_lstsort(t_list **lst, int (*cmp)(void *, void *))
 		;
 }
 
-t_list	*ft_lstsort_dup(t_list *lst, int (*cmp)(void *, void *))
+t_env_var	*ft_lstsort_dup(t_env_var *lst, int (*cmp)(void *, void *))
 {
-	t_list	*copy;
+	t_env_var	*copy;
 
 	if (!lst)
 		return (NULL);

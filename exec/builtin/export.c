@@ -1,6 +1,6 @@
 #include "../../minishell.h"
 
-static void	print_declared_var(void *data)
+void	print_declared_var(void *data)
 {
 	t_env_var	*var;
 
@@ -20,17 +20,17 @@ static void	print_declared_var(void *data)
 	ft_putchar_fd('\n', STDOUT_FILENO);
 }
 
-static int	print_all_vars(t_list *env)
+static int	print_all_vars(t_env_var *env)
 {
-	t_list	*sorted;
+	t_env_var	*sorted;
 
 	if (!env)
 		return (-1);
 	sorted = ft_lstsort_dup(env, env_var_cmp_var);
 	if (!sorted)
 		return (-1);
-	ft_lstiter(sorted, print_declared_var);
-	ft_lstclear(&sorted, NULL);
+	ft_lstiter_env(sorted, print_declared_var);
+	ft_lstclear_env(sorted);
 	return (0);
 }
 
@@ -69,7 +69,7 @@ static int	env_is_valid_name(const char *name)
 	int	i;
 
 	if (!name || !*name)
-		return (0);
+		return (1);
 	if (!ft_isalpha(*name) && *name != '_')
 		return (0);
 	i = 1;
@@ -82,7 +82,7 @@ static int	env_is_valid_name(const char *name)
 	return (1);
 }
 
-static int	export_single_var(t_list *env, char *arg)
+static int	export_single_var(t_env_var *env, char *arg)
 {
 	char	*name;
 	char	*value;
@@ -98,7 +98,7 @@ static int	export_single_var(t_list *env, char *arg)
 		ft_putendl_fd("': not a valid identifier", STDERR_FILENO);
 		free(name);
 		free(value);
-		return (-1);
+		return (1);
 	}
 	res = env_set(env, name, value);
 	free(name);
@@ -120,7 +120,7 @@ int	builtin_export(t_shell *sh, char **args)
 	while (args[i])
 	{
 		if (export_single_var(sh->env, args[i]) != 0)
-			status = -1;
+			status = 1;
 		i++;
 	}
 	return (status);

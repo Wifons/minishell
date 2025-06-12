@@ -27,39 +27,43 @@ static int	parse_env_str(const char *str, char **name, char **val)
 	return (0);
 }
 
-static int	add_env_str(t_list *env, const char *str)
+static t_env_var	*add_env_token(const char *str)
 {
+	t_env_var	*node;
 	char	*name;
 	char	*val;
-	int		res;
 
 	if (parse_env_str(str, &name, &val) != 0)
-		return (-1);
-	res = env_set(env, name, val);
-	free(name);
-	free(val);
-	return (res);
+		return (NULL);
+	node = malloc(sizeof(t_env_var));
+	node->name = name;
+	node->value = val;
+	node->next = NULL;
+	return (node);
 }
 
-t_list	*env_init(char **envp)
+
+t_env_var	*env_init(char **envp)
 {
-	t_list	*env;
+	t_env_var	*env;
+	t_env_var	*new_node;
 	int						i;
 
-	env = malloc(sizeof(t_list));
-	if (!env)
-		return (NULL);
+	env = NULL;
 	if (!envp)
 		return (env);
 	i = 0;
 	while (envp[i])
 	{
-		if (add_env_str(env, envp[i]) != 0)
+		new_node = add_env_token(envp[i]);
+		if (!new_node)
 		{
-			env_free(env);
+			//env_free(env);
 			return (NULL);
 		}
+		ft_lstadd_back_env(&env, new_node);
 		i++;
 	}
+	//print_env(env);
 	return (env);
 }

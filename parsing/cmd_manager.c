@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/20 23:45:22 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/27 23:39:53 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/09 01:07:51 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,17 @@ void    ft_free_token_list(t_token *tokens)
 			}
 	}
 }
+void    ft_operator_free(t_cmd *cmd)
+{
+    if (cmd->app_redirect)
+            free(cmd->app_redirect);
+    if (cmd->l_redirect)
+        free(cmd->l_redirect);
+    if (cmd->r_redirect)
+        free(cmd->r_redirect);
+    if (cmd->heredoc_buff)
+        free(cmd->heredoc_buff);
+}
 
 void    ft_free_cmd_list(t_cmd *cmd)
 {
@@ -37,15 +48,22 @@ void    ft_free_cmd_list(t_cmd *cmd)
 		i = 0;
 		tmp = cmd;
 		cmd = cmd->next;
-		while (tmp->arguments[i])
-		{
-			free(tmp->arguments[i]);
-			i++;
-		}
-		free(tmp->arguments);
-        if (tmp->heredoc_buff)
-            free(tmp->heredoc_buff);
+        if (tmp)
+        {
+            if (tmp->arguments)
+            {
+                while (tmp->arguments[i])
+                {
+                        free(tmp->arguments[i]);
+                    i++;
+                }
+            }
+            
+            ft_operator_free(tmp);
+            free(tmp->arguments);
+        }
 		free(tmp);
+        
 	}
 }
 
@@ -82,7 +100,7 @@ void append_cmd(t_cmd **head, t_cmd *new_cmd)
 
     tmp->next = new_cmd;
 }
-
+/*
 t_cmd   *parse_cmd(t_token *tokens)
 {
     t_cmd   *head_cmd;
@@ -125,3 +143,4 @@ t_cmd   *parse_cmd(t_token *tokens)
     ft_free_token_list(tokens);
     return (head_cmd);
 }
+*/

@@ -36,6 +36,6 @@ int	builtin_env(t_shell *sh, char **args)
 		ft_putendl_fd("env: too many arguments", STDERR_FILENO);
 		return (-1);
 	}
-	ft_lstiter(sh->env, print_env_var);
+	ft_lstiter_env(sh->env, print_env_var);
 	return (0);
 }

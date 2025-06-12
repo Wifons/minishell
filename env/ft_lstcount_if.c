@@ -1,15 +1,15 @@
 #include "../minishell.h"
 
-int	ft_lstcount_if(t_list *lst, int (*f)(void *))
+int	ft_lstcount_if(t_env_var *lst, int (*f)(void *))
 {
 	int			count;
-	t_list	*curr;
+	t_env_var	*curr;
 
 	count = 0;
 	curr = lst;
 	while (curr)
 	{
-		if (f(curr->content))
+		if (f(curr))
 			count++;
 		curr = curr->next;
 	}

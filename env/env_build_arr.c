@@ -20,7 +20,7 @@ static int	add_var(void *data, void *ctx)
 	return (0);
 }
 
-char	**env_build_arr(t_list *env)
+char	**env_build_arr(t_env_var *env)
 {
 	char	**arr;
 	int		count;

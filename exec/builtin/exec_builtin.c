@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/29 19:48:11 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/06 15:12:02 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int exec_builtin(t_shell *shell, t_cmd *cmd)
 	if (ft_strcmp(name, "cd") == 0)
 		return (builtin_cd(shell, cmd));
 	if (ft_strcmp(name, "pwd") == 0)
-		return (builtin_pwd());
+		return (builtin_pwd(shell, cmd->arguments));
 	if (ft_strcmp(name, "export") == 0)
 		return (builtin_export(shell, cmd->arguments));
 	if (ft_strcmp(name, "unset") == 0)
