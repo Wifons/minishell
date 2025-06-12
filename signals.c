@@ -17,7 +17,7 @@ static void handle_sigint_interactive(int sig)
 static void handle_sigquit_execution(int sig)
 {
 	(void)sig;
-	write(STDOUT_FILENO, "^\\Quit (core dumped)\n", 21);
+	write(STDOUT_FILENO, "Quit (core dumped)\n", 19);
 }
 
 /* Signal setup functions */
