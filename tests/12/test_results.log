@@ -1,0 +1,26 @@
+SHELL COMPARISON TESTS
+Date: Fri Jun 13 01:14:19 CEST 2025
+Test Run: 12
+
+━━━ Test 1: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+hola
+echo $?
+0
+
+MINISHELL:
+hola
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+TESTS COMPLETE

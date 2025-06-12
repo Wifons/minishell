@@ -1,0 +1,997 @@
+SHELL COMPARISON TESTS
+Date: Fri Jun 13 00:45:40 CEST 2025
+Test Run: 3
+
+━━━ Test 1: pwd>bonjour
+cat bonjour
+ ━━━
+BASH:
+echo $?
+0
+/home/jewtwo/wifons_minishell/test
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+/home/jewtwo/wifons_minishell/test
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 2: pwd > bonjour
+cat bonjour
+ ━━━
+BASH:
+echo $?
+0
+/home/jewtwo/wifons_minishell/test
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+/home/jewtwo/wifons_minishell/test
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 3: echo hola > > bonjour
+ ━━━
+BASH:
+syntax error near unexpected token `>'
+echo $?
+2
+echo $?
+0
+
+MINISHELL:
+syntax error near unexpected token `>'
+echo $?
+2
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 4: echo hola < < bonjour
+ ━━━
+BASH:
+syntax error near unexpected token `<'
+echo $?
+2
+echo $?
+0
+
+MINISHELL:
+syntax error near unexpected token `<'
+echo $?
+2
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 5: echo hola >>> bonjour
+ ━━━
+BASH:
+syntax error near unexpected token `>'
+echo $?
+2
+echo $?
+0
+
+MINISHELL:
+syntax error near unexpected token `>'
+echo $?
+2
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 6: > bonjour echo hola
+cat bonjour
+ ━━━
+BASH:
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 7: > bonjour | echo hola
+cat bonjour
+ ━━━
+BASH:
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 8: prout hola > bonjour
+ls
+ ━━━
+BASH:
+prout: command not found
+echo $?
+127
+Makefile  expansion    minishell.h  tests      valgrind.supp
+bonjour   libft        minishell.o  tmp.txt
+env	  minishell    parsing	    tokenizer
+exec	  minishell.c  tester.sh    utils
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+prout: command not found
+echo $?
+127
+Makefile  expansion    minishell.h  tests      valgrind.supp
+bonjour   libft        minishell.o  tmp.txt
+env	  minishell    parsing	    tokenizer
+exec	  minishell.c  tester.sh    utils
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 9: echo hola > hello >> hello >> hello
+ls
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+Makefile  expansion  minishell.c  tester.sh  utils
+bonjour   hello      minishell.h  tests      valgrind.supp
+env	  libft      minishell.o  tmp.txt
+exec	  minishell  parsing	  tokenizer
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+Makefile  expansion  minishell.c  tester.sh  utils
+bonjour   hello      minishell.h  tests      valgrind.supp
+env	  libft      minishell.o  tmp.txt
+exec	  minishell  parsing	  tokenizer
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 10: echo hola > hello >> hello >> hello
+echo hola >> hello
+cat < hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+hola
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+hola
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 11: echo hola > hello >> hello >> hello
+echo hola >> hello
+echo hola > hello >> hello >> hello
+cat < hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 12: echo hola >> hello >> hello > hello
+echo hola >> hello
+echo hola >> hello >> hello > hello
+cat < hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 13: echo hola > hello
+echo hola >> hello >> hello >> hello
+echo hola >> hello
+cat < hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+hola
+hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+hola
+hola
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 14: echo hola > hello
+echo hey > bonjour
+echo <bonjour <hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 15: echo hola > hello
+echo hey > bonjour
+echo <hello <bonjour
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 16: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+cat: hello: No such file or directory
+echo $?
+1
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 17: echo hola > bonjour
+echo hey > hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+hey
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 18: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour >> hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 19: echo hola > bonjour
+echo hey > hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+hey
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 20: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour > hello >> bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 21: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+cat: hello: No such file or directory
+echo $?
+1
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 22: echo hola > bonjour
+echo hey > hello
+echo hola >> bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+hey
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 23: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+cat: hello: No such file or directory
+echo $?
+1
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 24: echo hola > bonjour
+echo hey > hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+hola
+echo $?
+0
+hey
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+hola
+echo $?
+0
+hey
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 25: > bonjour echo hola bonjour
+cat bonjour
+ ━━━
+BASH:
+echo $?
+0
+hola bonjour
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+hola bonjour
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 26: >bonjour echo > hola>bonjour>hola>>bonjour>hola hey >bonjour hola >hola
+cat bonjour
+cat hola
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+hey hola
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+hey hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 27: echo bonjour > hola1
+echo hello > hola2
+echo 2 >hola1 >> hola2
+ls
+cat hola1
+cat hola2
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+echo $?
+0
+echo $?
+0
+hello
+2
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+echo $?
+0
+echo $?
+0
+hello
+2
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 28: echo bonjour > hola1
+echo hello > hola2
+echo 2 >>hola1 > hola2
+ls
+cat hola1
+cat hola2
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+echo $?
+0
+bonjour
+echo $?
+0
+2
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+echo $?
+0
+bonjour
+2
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+TESTS COMPLETE

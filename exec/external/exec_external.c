@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:33 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 14:40:52 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/11 22:31:41 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
-#include <signal.h>
 #include <sys/stat.h>
 
 static int is_directory(const char *path)
@@ -37,7 +36,6 @@ static void exec_cmd(t_shell *sh, t_cmd *cmd, char *path)
 {
 	char **exec_env;
 
-	// printf("%s", sh->env->name);
 	exec_env = env_build_arr(sh->env);
 	if (!exec_env)
 	{
@@ -53,7 +51,6 @@ static void exec_cmd(t_shell *sh, t_cmd *cmd, char *path)
 
 static void exec_child(t_shell *shell, t_cmd *cmd, char *path)
 {
-	setup_signals_child();
 	if (setup_redirs(cmd) == -1)
 		exit(GENERAL_ERROR);
 	exec_cmd(shell, cmd, path);
@@ -131,7 +128,10 @@ static int fork_and_execute(t_shell *shell, t_cmd *cmd, char *path)
 		return (GENERAL_ERROR);
 	}
 	if (pid == 0)
+	{
+		// setup_child_signals();
 		exec_child(shell, cmd, path);
+	}
 	return (wait_child(pid));
 }
 

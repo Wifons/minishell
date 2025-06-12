@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:46 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 14:41:03 by wifons           ###   ########.fr       */
+/*   Updated: 2025/05/29 16:44:01 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,6 @@ static void	exec_cmd_type(t_shell *shell, t_cmd *cmd)
 /* Setup pipes and execute command in child process */
 void	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 {
-	setup_signals_child();
 	setup_pipe_input(in_fd);
 	setup_pipe_output(cmd, pipefd);
 	exec_cmd_type(shell, cmd);

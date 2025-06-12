@@ -1,0 +1,95 @@
+SHELL COMPARISON TESTS
+Date: Fri Jun 13 01:02:53 CEST 2025
+Test Run: 5
+
+━━━ Test 1: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+━━━ Test 2: echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+echo $?
+0
+hola
+echo $?
+0
+echo $?
+0
+echo $?
+0
+
+✗ MATCH
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+TESTS COMPLETE

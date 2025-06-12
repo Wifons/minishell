@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pipeline.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:43 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 13:47:14 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/08 23:40:44 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,11 +83,9 @@ static int	exec_loop(t_shell *shell, t_cmd *cmd, int *n_cmds)
 int	exec_pipeline(t_shell *shell, t_cmd *cmd)
 {
 	int	n_cmds;
-	int res;
-	
+
 	n_cmds = 0;
 	if (exec_loop(shell, cmd, &n_cmds) == GENERAL_ERROR)
-		return (1);
-	res = wait_pipeline(n_cmds);
-	return (res);
+		return (GENERAL_ERROR);
+	return (wait_pipeline(n_cmds));
 }

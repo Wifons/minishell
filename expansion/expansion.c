@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 21:05:37 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/05 01:06:47 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/11 01:44:08 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char    *expand_and_delete(char    *value, char *variable, char *var_env)
     
     j = 0;
     i = 0;
-    while (value[i] != '$' && value[i] && check_in_quote(value, i) != 1)
+    while (value[i] != '$' && value[i])
         i++;
     j = i + 1 + ft_strlen(variable);
     tmp = ft_substr(value, 0, i);
@@ -82,7 +82,25 @@ char    *extract_varname(char *str)
     free(tmp);
     return(extract);
 }
-
+char    *fix_value(char *str)
+{
+    char    *new_value;
+    int i;
+    int j;
+    
+    i = 1;
+    j = 0;
+    new_value = NULL;
+    if (str[i] != '\0')
+    {
+        new_value = malloc((sizeof(char)) * ft_strlen(str + i) + 1);
+        while (str[i] != '\0')
+            new_value[j++] = str[i++];
+        new_value[j] = '\0';
+        free(str);
+    }
+    return (new_value);
+}
 char    *expand_variable_dq(t_shell *shell, char *value)
 {
     int i;
@@ -101,6 +119,10 @@ char    *expand_variable_dq(t_shell *shell, char *value)
             free(var_env);
             i = 0;
             continue ;
+        }
+        else if (value[i] == '$' && (value[i + 1] == '\"' || value[i + 1] == '\''))
+        {
+            value = fix_value(value);
         }
         else if (value[i] == '$' && value[i + 1] != '\0'
             && check_in_quote(value, i) != 1 && is_valid_var(value, i + 1))

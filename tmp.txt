@@ -1,0 +1,101 @@
+echo hola > hello >> hello >> hello
+echo hola >> hello
+cat < hello
+
+echo hola > hello >> hello >> hello
+echo hola >> hello
+echo hola > hello >> hello >> hello
+cat < hello
+
+echo hola >> hello >> hello > hello
+echo hola >> hello
+echo hola >> hello >> hello > hello
+cat < hello
+
+echo hola > hello
+echo hola >> hello >> hello >> hello
+echo hola >> hello
+cat < hello
+
+echo hola > hello
+echo hey > bonjour
+echo <bonjour <hello
+
+echo hola > hello
+echo hey > bonjour
+echo <hello <bonjour
+
+
+
+echo hola > bonjour
+echo hey > hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour >> hello > bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+echo hola > bonjour > hello > bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola > bonjour > hello >> bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour > hello > bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+echo hola >> bonjour > hello > bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+rm bonjour hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+
+echo hola > bonjour
+echo hey > hello
+echo hola >> bonjour >> hello >> bonjour
+cat bonjour
+cat hello
+
+> bonjour echo hola bonjour
+cat bonjour
+
+>bonjour echo > hola>bonjour>hola>>bonjour>hola hey >bonjour hola >hola
+cat bonjour
+cat hola
+
+echo bonjour > hola1
+echo hello > hola2
+echo 2 >hola1 >> hola2
+ls
+cat hola1
+cat hola2
+
+echo bonjour > hola1
+echo hello > hola2
+echo 2 >>hola1 > hola2
+ls
+cat hola1
+cat hola2

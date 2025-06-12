@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:07:16 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/11 01:53:05 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,11 @@ static void	print_args(char **args, int i)
 {
 	while (args[i])
 	{
+		if (ft_strlen(args[i]) == 0)
+		{
+			i++;
+			continue ;
+		}
 		ft_putstr_fd(args[i], STDOUT_FILENO);
 		if (args[i + 1])
 			ft_putchar_fd(' ', STDOUT_FILENO);

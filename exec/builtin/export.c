@@ -9,7 +9,7 @@ void	print_declared_var(void *data)
 	var = (t_env_var *)data;
 	if (!var->name || ft_strcmp(var->name, "_") == 0)
 		return ;
-	ft_putstr_fd("export ", STDOUT_FILENO);
+	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(var->name, STDOUT_FILENO);
 	if (var->value)
 	{
@@ -59,7 +59,7 @@ static int	parse_export_arg(const char *arg, char **name, char **value)
 	{
 		free(*name);
 		*name = NULL;
-		return (-1);
+		return (1);
 	}
 	return (0);
 }
@@ -69,7 +69,7 @@ static int	env_is_valid_name(const char *name)
 	int	i;
 
 	if (!name || !*name)
-		return (1);
+		return (0);
 	if (!ft_isalpha(*name) && *name != '_')
 		return (0);
 	i = 1;
@@ -120,7 +120,10 @@ int	builtin_export(t_shell *sh, char **args)
 	while (args[i])
 	{
 		if (export_single_var(sh->env, args[i]) != 0)
+		{
+			
 			status = 1;
+		}
 		i++;
 	}
 	return (status);

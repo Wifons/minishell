@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 22:48:43 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/12 13:25:13 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ typedef enum
 	PIPE
 } t_type;
 
+
+
 typedef struct token
 {
 	char *value;
@@ -77,9 +79,16 @@ typedef struct s_shell
 {
 	t_env_var	*env;
 	int			global_status;
-	int			curr_line;
 } t_shell;
 
+typedef struct s_parse_cmd
+{
+    t_cmd   **cmd;
+    t_cmd   **head_cmd;
+    t_token **tmp;
+    t_token *tokens;
+    t_shell *shell;
+} t_parse_cmd;
 
 void    ft_free_token_list(t_token *tokens);
 void append_cmd(t_cmd **head, t_cmd *new_cmd);
@@ -120,7 +129,8 @@ void add_l_red(t_cmd *cmd, t_token **tokens);
 void add_r_red(t_cmd *cmd, t_token **tokens);
 void add_app_red(t_cmd *cmd, t_token **tokens);
 void add_heredoc(t_cmd *cmd, t_token **tokens);
-t_cmd *parse_cmd(t_token *tokens);
+t_cmd *parse_cmd(t_token *tokens, t_shell *shell);
+int	init_parse_struct(t_parse_cmd *parse, t_token *tokens, t_shell *shell);
 void ft_free_cmd_list(t_cmd *cmd);
 void clear_quote(t_token *tokens);
 
@@ -160,7 +170,7 @@ void setup_pipe_out(int pipefd[2]);
 /* -> External*/
 char *find_cmd_path(t_env_var *env, const char *cmd);
 int exec_external(t_shell *shell, t_cmd *cmd);
-int print_cmd_not_found(const char *cmd);
+int	print_cmd_not_found(const char *cmd);
 
 /* -> Pipeline */
 void exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2]);
@@ -199,16 +209,8 @@ t_env_var	*ft_lstnew_env(const char *name, const char *value);
 void	ft_lstdelone_env(t_env_var *lst, void (*del)(void*));
 
 /* Heredoc test*/
-int verif_heredoc(t_shell *sh, t_token *tokens);
+int verif_heredoc(t_token *tokens);
 int setup_heredoc(t_cmd *cmd);
 char *remove_quotes(char *input);
-
-extern volatile sig_atomic_t g_signal_received;
-
-void setup_signals_interactive(void);
-void setup_signals_execution(void);
-void setup_signals_child(void);
-void setup_heredoc_signals(void);
-void reset_signals(void);
 
 #endif

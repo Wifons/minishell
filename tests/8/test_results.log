@@ -1,0 +1,50 @@
+SHELL COMPARISON TESTS
+Date: Fri Jun 13 01:04:53 CEST 2025
+Test Run: 8
+
+━━━ Test 1: echo bonjour > hola1
+echo hello > hola2
+echo 2 >>hola1 > hola2
+ls
+cat hola1
+cat hola2
+ ━━━
+BASH:
+echo $?
+0
+echo $?
+0
+echo $?
+0
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+echo $?
+0
+bonjour
+echo $?
+0
+2
+echo $?
+0
+echo $?
+0
+
+MINISHELL:
+Makefile   hello  minishell    tester.sh  valgrind.supp
+bonjour    hola   minishell.c  tests
+env	   hola1  minishell.h  tmp.txt
+exec	   hola2  minishell.o  tokenizer
+expansion  libft  parsing      utils
+bonjour
+2
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✓ NO LEAK
+TESTS COMPLETE
