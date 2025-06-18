@@ -11,7 +11,7 @@ void	print_declared_var(void *data)
 		return ;
 	ft_putstr_fd("declare -x ", STDOUT_FILENO);
 	ft_putstr_fd(var->name, STDOUT_FILENO);
-	if (var->value)
+	if (var->value && var->value[0] != '\0')
 	{
 		ft_putstr_fd("=\"", STDOUT_FILENO);
 		ft_putstr_fd(var->value, STDOUT_FILENO);

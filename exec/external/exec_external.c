@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:33 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/11 22:31:41 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/17 18:01:25 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,9 +103,11 @@ static char *get_executable_path(t_shell *shell, char *cmd_name, int *error_code
 		return (ft_strdup(cmd_name));
 	}
 	path = find_cmd_path(shell->env, cmd_name);
-	if (!path)
+	if (!path || cmd_name[0] == '\0')
 	{
 		*error_code = print_cmd_not_found(cmd_name);
+		if (path)
+			free(path);
 		return (NULL);
 	}
 	if (is_directory(path))
@@ -141,7 +143,7 @@ int exec_external(t_shell *shell, t_cmd *cmd)
 	int error_code;
 	int exit_status;
 
-	if (!cmd->arguments[0] || !cmd->arguments[0][0])
+	if (!cmd->arguments[0])
 		return (0);
 	path = get_executable_path(shell, cmd->arguments[0], &error_code);
 	if (!path)

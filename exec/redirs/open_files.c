@@ -6,14 +6,14 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:02 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/26 02:08:03 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/15 01:36:37 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Print error message for file operations */
-static void	print_file_error(const char *file)
+void	print_file_error(const char *file)
 {
 	ft_putstr_fd("Minishell : ", STDERR_FILENO);
 	perror(file);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 13:25:13 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 15:56:49 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,13 +47,19 @@ typedef enum
 } t_type;
 
 
-
 typedef struct token
 {
 	char *value;
 	t_type type;
 	struct token *next;
 } t_token;
+
+typedef struct s_redir_ordered {
+    int redirect; // 1 pour in, 0 pour out
+    int append;   // 1 pour >>, 0 pour >
+    char *filename;
+    struct s_redir_ordered *next;
+} t_redir_ordered;
 
 typedef struct cmd
 {
@@ -62,6 +68,7 @@ typedef struct cmd
 	char *r_redirect;
 	char *app_redirect;
 	char *heredoc_buff;
+	t_redir_ordered *redir_list;
 	int previous_pipe;
 	int next_pipe;
 
@@ -79,6 +86,8 @@ typedef struct s_shell
 {
 	t_env_var	*env;
 	int			global_status;
+	int			should_exit;
+	int			curr_line;
 } t_shell;
 
 typedef struct s_parse_cmd
@@ -136,7 +145,11 @@ void clear_quote(t_token *tokens);
 
 /* Expansion */
 void expansion(t_shell *shell, t_token *tokens);
-char *expand_variable_dq(t_shell *shell, char *value);
+void    expand_brace(t_shell *shell, const char *value, char **exp, int *skip);
+void    expand_simple(t_shell *shell, const char *value, char **exp, int *skip);
+char    *replace_cmd_code(char *value, char *code);
+char    *ft_strjoin_free(char *s1, const char *s2);
+char	*translation(char	*value);
 
 /* Execution */
 int exec_single(t_shell *shell, t_cmd *cmd);
@@ -146,7 +159,7 @@ int exec_command(t_shell *shell, t_cmd *cmd);
 int builtin_echo(t_cmd *cmd);
 int builtin_export(t_shell *shell, char **args);
 int builtin_cd(t_shell *shell, t_cmd *cmd);
-int builtin_exit(t_shell *shell, char **args);
+int builtin_exit(t_shell *shell, t_cmd *cmd);
 int	builtin_pwd(t_shell *shell, char **arguments);
 int builtin_unset(t_shell *shell, char **args);
 int	builtin_env(t_shell *shell, char **args);
@@ -209,8 +222,19 @@ t_env_var	*ft_lstnew_env(const char *name, const char *value);
 void	ft_lstdelone_env(t_env_var *lst, void (*del)(void*));
 
 /* Heredoc test*/
-int verif_heredoc(t_token *tokens);
+int verif_heredoc(t_shell *sh, t_token *tokens);
 int setup_heredoc(t_cmd *cmd);
 char *remove_quotes(char *input);
+
+/* signals */
+extern volatile sig_atomic_t g_signal_received;
+
+void setup_signals_interactive(void);
+void setup_signals_execution(void);
+void setup_signals_child(void);
+void setup_heredoc_signals(void);
+void reset_signals(void);
+
+void	print_file_error(const char *file);
 
 #endif

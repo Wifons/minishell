@@ -14,11 +14,12 @@
 
 int	count_symbol_token(char *str, int *i)
 {
-	int	count = 0;
+	int	count;
 
-	if ((str[*i] == '<' && str[*i + 1] == '<') ||
-		(str[*i] == '>' && str[*i + 1] == '>') ||
-		(str[*i] == '|'&& str[*i + 1] == '|'))
+	count = 0;
+	if ((str[*i] == '<' && str[*i + 1] == '<')
+		|| (str[*i] == '>' && str[*i + 1] == '>')
+		|| (str[*i] == '|' && str[*i + 1] == '|'))
 	{
 		count++;
 		*i += 2;
@@ -30,6 +31,7 @@ int	count_symbol_token(char *str, int *i)
 	}
 	return (count);
 }
+
 int	checking_char(char *str, int *i, int *in_word)
 {
 	int	count;
@@ -102,7 +104,7 @@ char	*extract_symbol_token(char *str, int *i)
 		(*i)++;
 		count_symbol++;
 		if (count_symbol == 2)
-			break;
+			break ;
 	}
 	token = (char *)malloc(sizeof(char) * (*i - start + 1));
 	token = _ft_strcpy(str, token, start, *i - 1);

@@ -9,7 +9,7 @@ static int	env_var_is_env_visible(void *var_ptr)
 	var = (t_env_var *)var_ptr;
 	if (!var || !var->name)
 		return (0);
-	if (!var->value)
+	if (!var->value || var->value[0] == '\0')
 		return (0);
 	return (1);
 }

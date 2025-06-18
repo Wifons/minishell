@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing_cmd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 01:13:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/13 00:12:32 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:11:18 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	check_file_readable(const char *filename)
 {
 	if (access(filename, R_OK) == -1)
 	{
-		perror(filename);
-		return (0);
+		return (1);
 	}
 	return (1);
 }
@@ -34,8 +33,7 @@ int	check_file_writable(const char *filename)
 {
 	if (access(filename, W_OK) == -1)
 	{
-		perror(filename);
-		return (0);
+		return (1);
 	}
 	return (1);
 }
@@ -73,8 +71,6 @@ int	handle_token(t_parse_cmd *parse)
 	else if ((*parse->tmp)->type == R_REDIRECT)
 	{
 		add_r_red((*parse->cmd), parse->tmp);
-		// if (!check_file_writable(((*parse->cmd))->r_redirect))
-		// 	return (error_parse(parse->head_cmd, parse->tokens, parse->shell));
 	}
 	else if ((*parse->tmp)->type == APP_REDIRECT)
 		add_app_red((*parse->cmd), parse->tmp);
@@ -84,6 +80,7 @@ int	handle_token(t_parse_cmd *parse)
 	}
 	return (1);
 }
+
 t_cmd	*ft_free_parse_cmd(t_parse_cmd *parse, t_cmd *result)
 {
 	free(parse->cmd);
@@ -98,8 +95,8 @@ t_cmd	*ft_free_parse_cmd(t_parse_cmd *parse, t_cmd *result)
 t_cmd	*parse_cmd(t_token *tokens, t_shell *shell)
 {
 	t_parse_cmd	parse;
-	t_cmd	*result;
-	
+	t_cmd		*result;
+
 	result = NULL;
 	if (!init_parse_struct(&parse, tokens, shell))
 		return (NULL);
@@ -119,32 +116,3 @@ t_cmd	*parse_cmd(t_token *tokens, t_shell *shell)
 	result = *(parse.head_cmd);
 	return (ft_free_parse_cmd(&parse, result));
 }
-/*
-t_cmd	*parse_cmd(t_token *tokens, t_shell *shell)
-{
-	t_cmd	*head_cmd;
-	t_cmd	*cmd;
-	t_token	*tmp;
-
-	cmd = NULL;
-	cmd = malloc(sizeof(t_cmd));
-	if (!cmd)
-		return (NULL);
-	init_cmd(cmd);
-	head_cmd = cmd;
-	tmp = tokens;
-	while (tmp)
-	{
-		if (tmp->type == PIPE)
-		{
-			if (!handle_pipe(&cmd, &head_cmd, &tmp, tokens))
-				return (NULL);
-			continue ;
-		}
-		if (!handle_token(&cmd, &head_cmd, &tmp, tokens))
-			return (NULL);
-		tmp = tmp->next;
-	}
-	ft_free_token_list(tokens);
-	return (head_cmd);
-}*/

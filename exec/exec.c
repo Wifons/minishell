@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:15 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/13 00:15:43 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/15 02:07:30 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,41 @@ static int	choose_exec_mode(t_shell *shell, t_cmd *cmd)
 	return (exec_single(shell, cmd));
 }
 
+int check_all_redirs(t_redir_ordered *redir)
+{
+    int fd;
+    while (redir)
+    {
+        if (redir->redirect == 1) // entrée
+        {
+            fd = open(redir->filename, O_RDONLY);
+            if (fd < 0)
+            {
+                print_file_error(redir->filename);
+                return 1;
+            }
+            close(fd);
+        }
+        else // sortie
+        {
+            int flags = O_WRONLY | O_CREAT;
+            if (redir->append)
+                flags |= O_APPEND;
+            else
+                flags |= O_TRUNC;
+            fd = open(redir->filename, flags, 0644);
+            if (fd < 0)
+            {
+                print_file_error(redir->filename);
+                return 1;
+            }
+            close(fd);
+        }
+        redir = redir->next;
+    }
+    return 0;
+}
+
 /* Main execution entry point - saves/restores fds and dispatches */
 int	exec_command(t_shell *shell, t_cmd *cmd)
 {
@@ -60,12 +95,17 @@ int	exec_command(t_shell *shell, t_cmd *cmd)
 	int	saved_stdout;
 	int	status;
 
+    status = 0;
 	if (!cmd)
 		return (SUCCESS);
 	if (save_std_fds(&saved_stdin, &saved_stdout) == -1)
 		return (GENERAL_ERROR);
-	env_update_underscore(shell, cmd);
-	status = choose_exec_mode(shell, cmd);
-	restore_std_fds(saved_stdin, saved_stdout);
+	env_update_underscore(shell, cmd);  
+    status = check_all_redirs(cmd->redir_list);
+	if (status == 0)
+    {
+        status = choose_exec_mode(shell, cmd);
+	    restore_std_fds(saved_stdin, saved_stdout);
+    }
 	return (status);
 }

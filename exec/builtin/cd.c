@@ -6,14 +6,25 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/08 23:21:40 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/17 17:49:56 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static int	change_dir(char *path)
+static int	change_dir(t_shell *sh, char *path)
 {
+	if (ft_strcmp(path, "-") == 0)
+	{
+		path = env_get(sh->env, "OLDPWD");
+		if (!path)
+		{
+			ft_putendl_fd("minishell: cd: OLDPWD not set", STDERR_FILENO);
+			return (0);
+		}
+		else
+			ft_putendl_fd(path, STDERR_FILENO);
+	}
 	if (chdir(path) == -1)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR_FILENO);
@@ -46,10 +57,10 @@ static void	update_pwd_vars(t_shell *sh)
 {
 	char	*old_pwd;
 	char	*new_pwd;
-
+	
 	old_pwd = env_get(sh->env, "PWD");
 	if (old_pwd)
-		env_set(sh->env, "OLDPWD", old_pwd);
+			env_set(sh->env, "OLDPWD", old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
@@ -77,7 +88,7 @@ int	builtin_cd(t_shell *sh, t_cmd *cmd)
 	}	
 	else
 		path = cmd->arguments[1];
-	if (change_dir(path) == SUCCESS)
+	if (change_dir(sh, path) == SUCCESS)
 	{
 		update_pwd_vars(sh);
 		return (SUCCESS);

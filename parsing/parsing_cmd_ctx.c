@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/12 12:56:11 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/12 13:26:59 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:10:45 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 int	init_parse_struct(t_parse_cmd *parse, t_token *tokens, t_shell *shell)
 {
-	t_cmd *cmd;
-	
+	t_cmd	*cmd;
+
 	cmd = NULL;
 	cmd = malloc(sizeof(t_cmd));
 	if (!cmd)

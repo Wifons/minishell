@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 22:16:18 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/04 16:19:08 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/17 19:05:20 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	ft_lstadd_backs(t_token **tokens, t_token *new)
 		*tokens = new;
 		return ;
 	}
-    last = *tokens;
+	last = *tokens;
 	while (last->next != NULL)
 		last = last->next;
 	last->next = new;
@@ -54,30 +54,32 @@ t_type	get_type(t_token *tokens)
 {
 	if (tokens->value[0] == '<' && tokens->value[1] == '\0')
 		return (L_REDIRECT);
-	else if(tokens->value[0] == '>' && tokens->value[1] == '\0')
+	else if (tokens->value[0] == '>' && tokens->value[1] == '\0')
 		return (R_REDIRECT);
-	else if(tokens->value[0] == '<' && tokens->value[1] == '<')
+	else if (tokens->value[0] == '<' && tokens->value[1] == '<')
 		return (HEREDOC);
-	else if(tokens->value[0] == '>' && tokens->value[1] == '>')
+	else if (tokens->value[0] == '>' && tokens->value[1] == '>')
 		return (APP_REDIRECT);
-	else if(tokens->value[0] == '(')
+	else if (tokens->value[0] == '(')
 		return (START_SUBSHELL);
-	else if(tokens->value[0] == ')')
+	else if (tokens->value[0] == ')')
 		return (END_SUBSHELL);
-	else if(tokens->value[0] == '|')
+	else if (tokens->value[0] == '|')
 		return (PIPE);
 	return (WORD);
 }
 
 t_token	*parse_line(t_shell *shell, char **str)
 {
-	t_token	*list = NULL;
-	int i;
+	t_token	*list;
+	t_token	*t1;
+	int		i;
 
 	i = 0;
+	list = NULL;
 	while (str[i])
 	{
-		t_token *t1 = create_token(str[i]);
+		t1 = create_token(str[i]);
 		free(str[i]);
 		ft_lstadd_backs(&list, t1);
 		i++;

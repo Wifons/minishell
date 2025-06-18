@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/06 15:12:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 15:41:38 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,6 @@ int exec_builtin(t_shell *shell, t_cmd *cmd)
 	if (ft_strcmp(name, "env") == 0)
 		return (builtin_env(shell, cmd->arguments));
 	if (ft_strcmp(name, "exit") == 0)
-		return (builtin_exit(shell, cmd->arguments));
+		return (builtin_exit(shell, cmd));
 	return (GENERAL_ERROR);
 }
