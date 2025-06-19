@@ -6,11 +6,59 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 11:24:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/17 19:00:51 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 03:25:35 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	checking_char(char *str, int *i, int *in_word)
+{
+	int	count;
+
+	count = 0;
+	if (str[*i] == ' ' && !check_in_quote(str, *i))
+	{
+		*in_word = 0;
+		(*i)++;
+		return (0);
+	}
+	if (check_symbol(str, *i) && !check_in_quote(str, *i))
+	{
+		count += count_symbol_token(str, i);
+		*in_word = 0;
+		return (count);
+	}
+	if (*in_word == 0)
+	{
+		count++;
+		*in_word = 1;
+	}
+	(*i)++;
+	return (count);
+}
+
+char	*extract_symbol_token(char *str, int *i)
+{
+	int		start;
+	int		tmp;
+	int		count_symbol;
+	char	*token;
+
+	start = *i;
+	tmp = str[*i];
+	count_symbol = 0;
+	while (check_symbol(str, *i) && str[*i] == tmp)
+	{
+		(*i)++;
+		count_symbol++;
+		if (count_symbol == 2)
+			break ;
+	}
+	token = (char *)malloc(sizeof(char) * (*i - start + 1));
+	token = _ft_strcpy(str, token, start, *i - 1);
+	return (token);
+}
 
 char	*extract_full_token(char *str, int *i)
 {
@@ -63,7 +111,7 @@ t_token	*tokenize(t_shell *shell, char *str)
 
 	i = 0;
 	compteur = 0;
-	if (!str || verif_input(shell, str) || ft_count_quote(str))
+	if (!str || verif_input(shell, str) || ft_count_quote(shell, str))
 		return (NULL);
 	str = ft_clean_comment(str);
 	result = (char **)malloc(sizeof(char *) * (ft_countword_ms(str) + 1));

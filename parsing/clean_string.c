@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 22:14:49 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/17 19:06:12 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:11:11 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ char	*ft_clean_comment(char *str)
 	int		commentaire_position;
 	char	*result;
 
-	i = 0;
+	i = -1;
 	commentaire_position = -1;
-	while (str[i])
+	while (str[++i])
 	{
 		if (str[i] == '#' && check_in_quote(str, i) == 0)
 		{
@@ -37,7 +37,6 @@ char	*ft_clean_comment(char *str)
 				break ;
 			}
 		}
-		i++;
 	}
 	if (commentaire_position == -1)
 		commentaire_position = i;
@@ -46,38 +45,33 @@ char	*ft_clean_comment(char *str)
 	while (++i < commentaire_position)
 		result[i] = str[i];
 	result[i] = '\0';
-	free(str);
 	return (result);
 }
 
 char	*remove_quotes(char *input)
 {
 	char	*result;
-	char	quote;
 	int		i;
 	int		j;
+	char	quote;
 
 	i = 0;
 	j = 0;
 	quote = 0;
-	result = malloc(sizeof(char) * ft_strlen(input) + 1);
+	result = malloc(sizeof(char) * (ft_strlen(input) + 1));
+	if (!result)
+		return (NULL);
 	while (input[i])
 	{
-		if ((input[i] == '\"' || input[i] == '\''))
-		{
-			if (quote == 0)
-				quote = input[i];
-			else if (input[i] == quote)
-				quote = 0;
-			else
-				result[j++] = input[i];
-		}
+		if ((input[i] == '\'' || input[i] == '\"') && quote == 0)
+			quote = input[i];
+		else if (input[i] == quote)
+			quote = 0;
 		else
 			result[j++] = input[i];
 		i++;
 	}
 	result[j] = '\0';
-	free(input);
 	return (result);
 }
 
@@ -98,12 +92,17 @@ int	ft_quote(char *str)
 void	clear_quote(t_token *tokens)
 {
 	t_token	*tmp;
+	char	*tmp_char;
 
 	tmp = tokens;
 	while (tmp)
 	{
 		if (ft_quote(tmp->value))
-			tmp->value = remove_quotes(tmp->value);
+		{
+			tmp_char = remove_quotes(tmp->value);
+			free(tmp->value);
+			tmp->value = tmp_char;
+		}
 		tmp = tmp->next;
 	}
 }

@@ -6,13 +6,14 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 01:24:42 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/17 19:07:13 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 20:39:12 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_redir_ordered(t_cmd *cmd, int redirect, int append, const char *filename)
+void	add_redir_ordered(t_cmd *cmd, int redirect, int append
+	, const char *filename)
 {
 	t_redir_ordered	*new;
 	t_redir_ordered	*tmp;
@@ -95,12 +96,4 @@ void	add_app_red(t_cmd *cmd, t_token **tokens)
 	if (cmd->app_redirect)
 		free(cmd->app_redirect);
 	cmd->app_redirect = ft_strdup((*tokens)->value);
-}
-
-void	add_heredoc(t_cmd *cmd, t_token **tokens)
-{
-	*tokens = (*tokens)->next;
-	if (cmd->heredoc_buff)
-		free(cmd->heredoc_buff);
-	cmd->heredoc_buff = ft_strdup((*tokens)->value);
 }

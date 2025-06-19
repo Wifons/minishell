@@ -1,0 +1,111 @@
+SHELL COMPARISON TESTS
+Date: Wed Jun 18 23:37:52 CEST 2025
+Test Run: 5
+
+━━━ Test 7: <>
+ ━━━
+BASH:
+syntax error near unexpected token `newline'
+echo $?
+2
+
+MINISHELL:
+syntax error near unexpected token `>'
+echo $?
+2
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 149: $HOMEdskjhfkdshfsd ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+: command not found
+echo $?
+127
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 152: $DONTEXIST
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+: command not found
+echo $?
+127
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 153: $LESS$VAR
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+: command not found
+echo $?
+127
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 263: cd --
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+cd: --: No such file or directory
+echo $?
+1
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 296: echo hola ||| cat
+ ━━━
+BASH:
+syntax error near unexpected token `|'
+echo $?
+2
+
+MINISHELL:
+syntax error near unexpected token `||'
+echo $?
+2
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 297: ech|o hola | cat
+ ━━━
+BASH:
+ech: command not found
+o: command not found
+echo $?
+0
+
+MINISHELL:
+o: command not found
+ech: command not found
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TESTS COMPLETE

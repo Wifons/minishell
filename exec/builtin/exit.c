@@ -1,9 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 03:45:49 by tcassu            #+#    #+#             */
+/*   Updated: 2025/06/18 21:37:11 by tcassu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-static int legal_number(char *string, long *result)
+/* Check if string is numeric */
+int	legal_number(char *string, long *result)
 {
-	char *end;
-	long val;
+	char	*end;
+	long	val;
 
 	if (!string || !*string)
 		return (0);
@@ -15,40 +28,28 @@ static int legal_number(char *string, long *result)
 	return (1);
 }
 
-static void sh_neednumarg(char *s)
+static void	sh_neednumarg(char *s)
 {
 	ft_putstr_fd("minishell: exit: ", STDERR_FILENO);
-	ft_putstr_fd(s ? s : "''", STDERR_FILENO);
+	if (s)
+		ft_putstr_fd(s, STDERR_FILENO);
+	else
+		ft_putstr_fd("''", STDERR_FILENO);
 	ft_putendl_fd(": numeric argument required", STDERR_FILENO);
 }
 
-static void no_args(char **args, int index)
+static void	no_args(char **args, int index)
 {
 	if (args[index])
 		ft_putendl_fd("minishell: exit: too many arguments", STDERR_FILENO);
 }
 
-static int is_option(char *arg)
+static int	get_exitstat(char **args, t_shell *sh, int *too_many_args)
 {
-	long dummy;
-
-	if (!arg || arg[0] != '-')
-		return (0);
-	if (arg[1] == '\0')
-		return (0);
-	if (arg[1] == '-' && arg[2] == '\0')
-		return (1);
-	if (legal_number(arg, &dummy))
-		return (0);
-	return (1);
-}
-
-static int get_exitstat(char **args, t_shell *sh, int *too_many_args)
-{
-	int status;
-	long sval;
-	char *arg;
-	int i;
+	int		status;
+	long	sval;
+	char	*arg;
+	int		i;
 
 	*too_many_args = 0;
 	i = 1;
@@ -72,10 +73,10 @@ static int get_exitstat(char **args, t_shell *sh, int *too_many_args)
 	return (status);
 }
 
-int builtin_exit(t_shell *sh, t_cmd *cmd)
+int	builtin_exit(t_shell *sh, t_cmd *cmd)
 {
-	int exit_value;
-	int too_many_args;
+	int	exit_value;
+	int	too_many_args;
 
 	ft_putendl_fd("exit", STDERR_FILENO);
 	exit_value = get_exitstat(cmd->arguments, sh, &too_many_args);

@@ -1,12 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   setup_heredoc.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 03:50:06 by tcassu            #+#    #+#             */
+/*   Updated: 2025/06/18 03:50:13 by tcassu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../minishell.h"
 
-static int create_heredoc_pipe(char *heredoc_content)
+static int	create_heredoc_pipe(char *heredoc_content)
 {
-	int pipefd[2];
-	pid_t pid;
-	int status;
-	
-	// On crée le pipe
+	int		pipefd[2];
+	pid_t	pid;
+	int		status;
+
 	if (create_pipe(pipefd) == -1)
 		return (-1);
 	pid = fork();
@@ -28,9 +39,9 @@ static int create_heredoc_pipe(char *heredoc_content)
 	return (pipefd[PIPE_READ]);
 }
 
-int setup_heredoc(t_cmd *cmd)
+int	setup_heredoc(t_cmd *cmd)
 {
-	int heredoc_fd;
+	int	heredoc_fd;
 
 	if (!cmd->heredoc_buff)
 		return (SUCCESS);

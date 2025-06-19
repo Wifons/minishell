@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/17 17:49:56 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 17:42:40 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static char	*get_home_path(t_env_var *env)
 	char	*path;
 
 	path = env_get(env, "HOME");
-	if (!path)
+	if (!path || path[0] == '\0')
 	{
 		ft_putstr_fd("minishell : cd: HOME not set\n", STDERR_FILENO);
 		return (NULL);
@@ -57,10 +57,10 @@ static void	update_pwd_vars(t_shell *sh)
 {
 	char	*old_pwd;
 	char	*new_pwd;
-	
+
 	old_pwd = env_get(sh->env, "PWD");
 	if (old_pwd)
-			env_set(sh->env, "OLDPWD", old_pwd);
+		env_set(sh->env, "OLDPWD", old_pwd);
 	new_pwd = getcwd(NULL, 0);
 	if (new_pwd)
 	{
@@ -85,7 +85,9 @@ int	builtin_cd(t_shell *sh, t_cmd *cmd)
 	{
 		ft_putendl_fd("minishell: cd: too many arguments", STDOUT_FILENO);
 		return (1);
-	}	
+	}
+	else if (cmd->arguments[1][0] == '\0')
+		return (SUCCESS);
 	else
 		path = cmd->arguments[1];
 	if (change_dir(sh, path) == SUCCESS)

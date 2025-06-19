@@ -6,19 +6,11 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 01:13:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/17 19:11:18 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 03:38:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	error_parse(t_cmd **head_cmd, t_token *tokens, t_shell *shell)
-{
-	ft_free_cmd_list(*head_cmd);
-	ft_free_token_list(tokens);
-	shell->global_status = 1;
-	return (0);
-}
 
 int	check_file_readable(const char *filename)
 {
@@ -79,17 +71,6 @@ int	handle_token(t_parse_cmd *parse)
 		add_heredoc((*parse->cmd), parse->tmp);
 	}
 	return (1);
-}
-
-t_cmd	*ft_free_parse_cmd(t_parse_cmd *parse, t_cmd *result)
-{
-	free(parse->cmd);
-	free(parse->head_cmd);
-	free(parse->tmp);
-	if (result)
-		return (result);
-	else
-		return (NULL);
 }
 
 t_cmd	*parse_cmd(t_token *tokens, t_shell *shell)

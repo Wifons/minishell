@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtin.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:19 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 15:41:38 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/18 18:36:03 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Dispatch to the correct builtin function */
-int exec_builtin(t_shell *shell, t_cmd *cmd)
+int	exec_builtin(t_shell *shell, t_cmd *cmd)
 {
-	char *name;
+	char	*name;
 
 	name = cmd->arguments[0];
 	if (ft_strcmp(name, "echo") == 0)

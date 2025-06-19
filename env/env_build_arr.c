@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_build_arr.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 03:42:30 by tcassu            #+#    #+#             */
+/*   Updated: 2025/06/18 03:42:31 by tcassu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
 static int	add_var(void *data, void *ctx)
 {
 	t_env_var	*var;
-	char			**arr;
-	char			*str;
-	int				*i;
+	char		**arr;
+	char		*str;
+	int			*i;
 
 	var = (t_env_var *)data;
 	arr = ((void **)ctx)[0];

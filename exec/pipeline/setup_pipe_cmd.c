@@ -3,16 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   setup_pipe_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:46 by tcassu            #+#    #+#             */
-/*   Updated: 2025/05/29 16:44:01 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/18 23:59:02 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/* Setup stdin from previous pipe if needed */
 static void	setup_pipe_input(int in_fd)
 {
 	if (in_fd != STDIN_FILENO)
@@ -32,19 +31,30 @@ static void	setup_pipe_output(t_cmd *cmd, int pipefd[2])
 }
 
 /* Execute command based on type (builtin or external) */
-static void	exec_cmd_type(t_shell *shell, t_cmd *cmd)
+static int	exec_cmd_type(t_shell *shell, t_cmd *cmd)
 {
+	int	exit_code;
+
+	if (!cmd->arguments)
+	{
+		if (setup_redirs(cmd) == -1)
+			return (1);
+		return (0);
+	}
 	if (is_builtin(cmd->arguments[0]))
-		exit(exec_builtin(shell, cmd));
+		exit_code = exec_builtin(shell, cmd);
 	else
-		exec_external(shell, cmd);
+		exit_code = exec_external(shell, cmd);
+	return (exit_code);
 }
 
 /* Setup pipes and execute command in child process */
 void	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 {
+	int	exit_code;
+
 	setup_pipe_input(in_fd);
 	setup_pipe_output(cmd, pipefd);
-	exec_cmd_type(shell, cmd);
-	exit(SUCCESS);
+	exit_code = exec_cmd_type(shell, cmd);
+	exit(exit_code);
 }

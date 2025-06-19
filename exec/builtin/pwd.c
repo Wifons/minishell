@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 15:20:05 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/06 15:21:32 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/18 02:52:45 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ int	builtin_pwd(t_shell *shell, char **arguments)
 		if (arguments[i][0] == '-' && !(arguments[i][1] == '\0'
 			|| (arguments[i][1] == '-' && arguments[i][2] == '\0')))
 		{
-			ft_putstr_fd("minishell: pwd: ", STDERR_FILENO);
-			ft_putstr_fd(arguments[i], STDERR_FILENO);
+			ft_putstr_fd("minishell: pwd: -", STDERR_FILENO);
+			ft_putchar_fd(arguments[i][1], STDERR_FILENO);
 			ft_putendl_fd(": invalid option", STDOUT_FILENO);
 			shell->global_status = 2;
 			return (2);
