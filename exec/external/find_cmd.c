@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   find_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:39 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/07 22:54:15 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:53:57 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Build full path by joining directory and command */
-static char	*build_full_path(const char *dir, const char *cmd)
+static char *build_full_path(const char *dir, const char *cmd)
 {
-	char	*tmp;
-	char	*full_path;
+	char *tmp;
+	char *full_path;
 
 	tmp = ft_strjoin(dir, "/");
 	if (!tmp)
@@ -27,10 +27,10 @@ static char	*build_full_path(const char *dir, const char *cmd)
 }
 
 /* Search for command in PATH directories */
-static char	*check_in_path(char **paths, const char *cmd)
+static char *check_in_path(char **paths, const char *cmd)
 {
-	char	*full_path;
-	int		i;
+	char *full_path;
+	int i;
 
 	i = 0;
 	while (paths[i])
@@ -48,11 +48,18 @@ static char	*check_in_path(char **paths, const char *cmd)
 	return (NULL);
 }
 
-/* Find executable path for command (check PATH env var) */
-char	*find_cmd_path(t_env_var *env, const char *cmd)
+static char *check_curr_dir(const char *cmd)
 {
-	char	*path_env;
-	char	**paths;
+	if (access(cmd, F_OK) == 0)
+		return (ft_strdup(cmd));
+	return (NULL);
+}
+
+/* Find executable path for command (check PATH env var) */
+char *find_cmd_path(t_env_var *env, const char *cmd)
+{
+	char *path_env;
+	char **paths;
 
 	if (!cmd)
 		return (NULL);
@@ -65,7 +72,7 @@ char	*find_cmd_path(t_env_var *env, const char *cmd)
 	}
 	path_env = env_get(env, "PATH");
 	if (!path_env)
-		return (ft_strdup(cmd));
+		return (check_curr_dir(cmd));
 	paths = ft_split(path_env, ':');
 	if (!paths)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/14 22:14:49 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 17:11:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 01:06:06 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,11 +97,14 @@ void	clear_quote(t_token *tokens)
 	tmp = tokens;
 	while (tmp)
 	{
-		if (ft_quote(tmp->value))
+		if (tmp->value)
 		{
-			tmp_char = remove_quotes(tmp->value);
-			free(tmp->value);
-			tmp->value = tmp_char;
+			if (ft_quote(tmp->value))
+			{
+				tmp_char = remove_quotes(tmp->value);
+				free(tmp->value);
+				tmp->value = tmp_char;
+			}
 		}
 		tmp = tmp->next;
 	}

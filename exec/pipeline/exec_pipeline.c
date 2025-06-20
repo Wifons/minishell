@@ -6,16 +6,16 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:43 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/19 19:21:15 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:11:28 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
 /* Fork a child process for a command in the pipeline */
-static int fork_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
+static int	fork_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 {
-	pid_t pid;
+	pid_t	pid;
 
 	pid = fork();
 	if (pid == -1)
@@ -24,15 +24,12 @@ static int fork_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 		return (-1);
 	}
 	if (pid == 0)
-	{
-		// setup_signals_child();
 		exec_pipe_cmd(shell, cmd, in_fd, pipefd);
-	}
 	return (pid);
 }
 
 /* Update pipe file descriptors for next command */
-static void update_pipe_fd(int *in_fd, int pipefd[2])
+static void	update_pipe_fd(int *in_fd, int pipefd[2])
 {
 	if (*in_fd != STDIN_FILENO)
 		close(*in_fd);
@@ -41,44 +38,31 @@ static void update_pipe_fd(int *in_fd, int pipefd[2])
 }
 
 /* Wait for all child processes and return last exit status */
-static int wait_pipeline(pid_t last_pid, int n_cmds)
+static int	wait_pipeline(pid_t last_pid, int n_cmds)
 {
-	int status;
-	int last_status;
-	int i;
-	pid_t finished_pid;
-	int	sig;
-	
+	int		status;
+	int		last_status;
+	int		i;
+	pid_t	finished_pid;
+
 	last_status = 0;
 	i = 0;
 	while (i < n_cmds)
 	{
 		finished_pid = wait(&status);
-		if (finished_pid == last_pid)
-		{
-			if (WIFSIGNALED(status))
-			{
-				sig = WTERMSIG(status);
-				if (sig == SIGINT)
-					last_status = 130;
-				else
-					last_status = 128 + sig;
-			}
-			else if (WIFEXITED(status))
-				last_status = WEXITSTATUS(status);
-		}
+		if (finished_pid == last_pid && WIFEXITED(status))
+			last_status = WEXITSTATUS(status);
 		i++;
 	}
-	g_signal_received = 0;
 	return (last_status);
 }
 
 /* Execute all commands in the pipeline */
-static int exec_loop(t_shell *shell, t_cmd *cmd, int *n_cmds, pid_t *last_pid)
+static int	exec_loop(t_shell *shell, t_cmd *cmd, int *n_cmds, pid_t *last_pid)
 {
-	int pipefd[2];
-	int in_fd;
-	pid_t curr_pid;
+	int		pipefd[2];
+	int		in_fd;
+	pid_t	curr_pid;
 
 	in_fd = STDIN_FILENO;
 	while (cmd)
@@ -100,10 +84,10 @@ static int exec_loop(t_shell *shell, t_cmd *cmd, int *n_cmds, pid_t *last_pid)
 }
 
 /* Main pipeline execution - fork all commands and wait */
-int exec_pipeline(t_shell *shell, t_cmd *cmd)
+int	exec_pipeline(t_shell *shell, t_cmd *cmd)
 {
-	int n_cmds;
-	pid_t last_pid;
+	int		n_cmds;
+	pid_t	last_pid;
 
 	n_cmds = 0;
 	if (exec_loop(shell, cmd, &n_cmds, &last_pid) == GENERAL_ERROR)

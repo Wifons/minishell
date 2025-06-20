@@ -1,0 +1,21 @@
+unset HOME
+cd $HOME
+pwd
+
+pwd
+unset PWD
+env | grep PWD
+cd $PWD
+pwd
+
+/bin/env
+
+export HOLA=" bonjour hey "
+echo $HOLA | cat -e
+
+export HOLA="s -la"
+l$HOLA
+
+export HOL=A=bonjour
+env
+

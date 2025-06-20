@@ -3,25 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   exec_external_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 20:58:31 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 21:01:59 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:13:38 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_directory(const char *path)
-{
-	struct stat	path_stat;
+// int	is_directory(const char *path)
+// {
+// 	struct stat	path_stat;
 
-	if (!path || !*path)
-		return (0);
-	if (stat(path, &path_stat) != 0)
-		return (0);
-	return (S_ISDIR(path_stat.st_mode));
-}
+// 	if (!path || !*path)
+// 		return (0);
+// 	if (stat(path, &path_stat) != 0)
+// 		return (0);
+// 	return (S_ISDIR(path_stat.st_mode));
+// }
 
 int	print_dir_error(char *cmd)
 {

@@ -1,6 +1,18 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   env_set.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/06/18 03:42:47 by tcassu            #+#    #+#             */
+/*   Updated: 2025/06/19 22:12:32 by tcassu           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 
-int dup_value(t_env_var *var, const char *value)
+int	dup_value(t_env_var	*var, const char	*value)
 {
 	var->value = ft_strdup(value);
 	if (var->value)
@@ -8,9 +20,9 @@ int dup_value(t_env_var *var, const char *value)
 	return (0);
 }
 
-static t_env_var *create_env_var(const char *name, const char *value)
+static	t_env_var	*create_env_var(const char *name, const char *value)
 {
-	t_env_var *var;
+	t_env_var	*var;
 
 	if (!name)
 		return (NULL);
@@ -37,19 +49,14 @@ static t_env_var *create_env_var(const char *name, const char *value)
 	return (var);
 }
 
-static int update_existing_var(t_env_var *var, const char *value)
+static int	update_existing_var(t_env_var *var, const char *value)
 {
-	char *new_val;
+	char	*new_val;
 
 	if (!var)
 		return (-1);
 	if (!value)
-	{
-		if (var->value == NULL)
-			return (0);
-		else
-			return (0);
-	}
+		return (0);
 	free(var->value);
 	var->value = NULL;
 	new_val = ft_strdup(value);
@@ -59,10 +66,10 @@ static int update_existing_var(t_env_var *var, const char *value)
 	return (0);
 }
 
-int env_set(t_env_var *env, const char *name, const char *val)
+int	env_set(t_env_var *env, const char *name, const char *val)
 {
-	t_env_var *existing;
-	t_env_var *new_node;
+	t_env_var		*existing;
+	t_env_var		*new_node;
 
 	if (!env || !name)
 		return (-1);

@@ -1,0 +1,64 @@
+pwd
+unset PWD
+env | grep PWD
+cd $PWD
+pwd
+
+/bin/env
+
+export HOLA=" bonjour hey "
+echo $HOLA | cat -e
+
+export HOLA="s -la"
+l$HOLA
+
+export HOL=A=bonjour
+env
+
+export HOLA="" -n bonjour ""
+echo $HOLA
+
+export HOLA='""'
+echo "" $HOLA "" | cat -e
+
+export HOLA= bonjour
+env | grep HOLA
+
+export HOLA=$HOME
+env | grep	HOLA
+
+export HOLA=$HOMEbonjour
+env | grep HOLA
+
+exit exit
+
+exit hola
+
+exit hola que tal
+
+exit hola 666
+
+exit hola 666 666
+
+exit "'666'"
+
+exit '"666"'
+
+ls | exit
+
+ls | exit 42
+
+exit | ls
+
+echo hola > bonjour
+exit | cat -e bonjour
+
+echo hola > bonjour
+cat -e bonjour | exit
+
+time sleep 3 | sleep 3
+
+sleep 3 | exit
+
+exit | sleep 3
+

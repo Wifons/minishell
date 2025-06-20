@@ -61,8 +61,8 @@ clean_output() {
     
     # Remove prompts using more flexible patterns
     # Remove bash prompts (with or without trailing spaces/newlines)
-    output=$(echo "$output" | sed 's/^bash-5\.2\$[[:space:]]*$//g')
-    output=$(echo "$output" | sed 's/bash-5\.2\$[[:space:]]*//g')
+    output=$(echo "$output" | sed 's/^bash-5\.1\$[[:space:]]*$//g')
+    output=$(echo "$output" | sed 's/bash-5\.1\$[[:space:]]*//g')
     
     # Remove minishell prompts (with or without trailing spaces/newlines)
     output=$(echo "$output" | sed 's/^minishell\$[[:space:]]*$//g')
@@ -226,7 +226,7 @@ read_tests() {
         else
             test="${test}${line}"$'\n'
         fi
-    done < tmp.txt  # ← C’est ici qu’on lit le fichier
+    done < listtest/other.txt  # ← C’est ici qu’on lit le fichier
     if [[ -n "$test" ]]; then
         TESTS+=("$test")
     fi

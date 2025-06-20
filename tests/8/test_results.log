@@ -1,111 +1,127 @@
 SHELL COMPARISON TESTS
-Date: Wed Jun 18 23:37:52 CEST 2025
-Test Run: 5
+Date: Fri Jun 20 22:37:14 CEST 2025
+Test Run: 8
 
-━━━ Test 7: <>
+━━━ Test 11: <<<<<<<<<<<<<<<<
  ━━━
 BASH:
-syntax error near unexpected token `newline'
+syntax error near unexpected token `<<<'
 echo $?
 2
 
 MINISHELL:
-syntax error near unexpected token `>'
+syntax error near unexpected token `<<'
 echo $?
 2
 
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-━━━ Test 149: $HOMEdskjhfkdshfsd ━━━
+━━━ Test 30: ''
+ ━━━
 BASH:
-echo $?
-0
-
-MINISHELL:
 : command not found
 echo $?
 127
 
+MINISHELL:
+echo $?
+0
+
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━ Test 152: $DONTEXIST
+━━━ Test 68: echo my shit terminal is [$TERM]
  ━━━
 BASH:
+echo my shit terminal is [$TERM]
+my shit terminal is c e
 echo $?
 0
 
 MINISHELL:
+echo my shit terminal is [$TERM]
+my shit terminal is [xterm-256color]
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 142: "$HOMEdskjhfkdshfsd"
+ ━━━
+BASH:
 : command not found
 echo $?
 127
 
-✗ DIFFER
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-━━━ Test 153: $LESS$VAR
- ━━━
-BASH:
+MINISHELL:
 echo $?
 0
-
-MINISHELL:
-: command not found
-echo $?
-127
 
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━ Test 263: cd --
+━━━ Test 153: export -HOLA=bonjour
  ━━━
 BASH:
+export: -H: invalid option
+export: usage: export [-fn] [name[=value] ...] or export -p
 echo $?
-0
+2
 
 MINISHELL:
-cd: --: No such file or directory
+export: `-HOLA=bonjour': not a valid identifier
 echo $?
 1
 
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-
-━━━ Test 296: echo hola ||| cat
+━━━ Test 154: export --HOLA=bonjour
  ━━━
 BASH:
-syntax error near unexpected token `|'
+export: --: invalid option
+export: usage: export [-fn] [name[=value] ...] or export -p
 echo $?
 2
 
 MINISHELL:
-syntax error near unexpected token `||'
+export: `--HOLA=bonjour': not a valid identifier
 echo $?
-2
+1
 
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-━━━ Test 297: ech|o hola | cat
+━━━ Test 166: export | grep "HOME"
  ━━━
 BASH:
-ech: command not found
-o: command not found
+export HOME="/home/jewtwo"
 echo $?
 0
 
 MINISHELL:
-o: command not found
-ech: command not found
+declare -x HOME="/home/jewtwo"
 echo $?
 0
 
 ✗ DIFFER
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
-TESTS COMPLETE
+━━━ Test 185: unset -HOLA
+ ━━━
+BASH:
+unset: -H: invalid option
+unset: usage: unset [-f] [-v] [-n] [name ...]
+echo $?
+2
+
+MINISHELL:
+unset: -HOLA: invalid option
+echo $?
+2
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+

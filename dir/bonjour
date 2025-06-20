@@ -1,0 +1,33 @@
+total 296
+drwxr-xr-x 14 jewtwo jewtwo   4096 Jun 20 22:52 .
+drwxr-xr-x 14 jewtwo jewtwo   4096 Jun 20 15:12 ..
+drwxr-xr-x  8 jewtwo jewtwo   4096 Jun 20 20:37 .git
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:53 0123456789
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:53 AMOUR Tu es Horrible
+-rw-r--r--  1 jewtwo jewtwo   2697 Jun 20 19:08 Makefile
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:53 PROUT
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:54 a
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:54 b
+-rw-r--r--  1 jewtwo jewtwo      5 Jun 20 22:53 bonjour
+-rw-r--r--  1 jewtwo jewtwo      5 Jun 20 22:54 c
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:54 d
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:53 dir
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 19:57 e
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:45 env
+drwxr-xr-x  8 jewtwo jewtwo   4096 Jun 20 15:58 exec
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37 expansion
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 15:10 heredoc
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:46 hey
+drwxr-xr-x  3 jewtwo jewtwo   4096 Jun 20 13:46 libft
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:42 listtest
+-rwxr-xr-x  1 jewtwo jewtwo 160328 Jun 20 22:52 minishell
+-rw-r--r--  1 jewtwo jewtwo   2340 Jun 20 19:40 minishell.c
+-rw-r--r--  1 jewtwo jewtwo   8452 Jun 20 20:36 minishell.h
+-rw-r--r--  1 jewtwo jewtwo  10016 Jun 20 19:40 minishell.o
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37 parsing
+-rwxrwxrwx  1 jewtwo jewtwo   6995 Jun 20 22:41 tester2.sh
+drwxr-xr-x 12 jewtwo jewtwo   4096 Jun 20 22:49 tests
+-rw-r--r--  1 jewtwo jewtwo  12462 Jun 20 13:42 tmp.txt
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37 tokenizer
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:44 utils
+-rw-r--r--  1 jewtwo jewtwo     81 Jun 20 13:42 valgrind.supp

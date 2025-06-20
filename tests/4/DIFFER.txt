@@ -1,0 +1,42 @@
+/bin/env
+
+export HOLA=" bonjour hey "
+echo $HOLA | cat -e
+
+export HOLA="s -la"
+l$HOLA
+
+export HOL=A=bonjour
+env
+
+export TE+S=T
+env | grep TE+S
+
+export $HOLA=bonjour
+env | grep bonjour
+
+export HOLA=""bonjour ""
+echo $HOLA | cat -e
+
+export HOLA="" -n bonjour ""
+echo $HOLA
+
+export HOLA=""bonjour ""/
+echo $HOLA
+
+export HOLA='""'
+echo "" $HOLA "" | cat -e
+
+export HOLA= bonjour
+env | grep HOLA
+
+export HOLA=$HOME
+env | grep	HOLA
+
+export HOLA=$HOMEbonjour
+env | grep HOLA
+
+exit exit
+
+exit hola
+

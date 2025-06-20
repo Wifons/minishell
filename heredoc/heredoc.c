@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 19:57:51 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 15:59:04 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:10:46 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,11 +62,11 @@ int	heredoc_loop(t_shell *shell, char **new_value, char	*eof, int start)
 	{
 		write(1, "> ", 2);
 		gnlreturn = get_next_line(0);
-		if (g_signal_received == SIGINT)
-		{
-			heredoc_cleanup(-1, *new_value, gnlreturn, eof);
-			return (1);
-		}
+		// if (g_signal_received == SIGINT)
+		// {
+		// 	heredoc_cleanup(-1, *new_value, gnlreturn, eof);
+		// 	return (1);
+		// }
 		if (!gnlreturn)
 		{
 			print_heredoc_eof_warning(start, eof);
@@ -85,7 +85,6 @@ char	*ft_heredoc(t_shell *shell, char *eof)
 	int		interupt;
 
 	stdin_backup = dup(STDIN_FILENO);
-	setup_heredoc_signals();
 	new_value = ft_strdup("");
 	interupt = heredoc_loop(shell, &new_value, eof, shell->curr_line);
 	if (interupt)

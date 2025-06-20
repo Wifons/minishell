@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:08:10 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/13 00:17:17 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:57:41 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	exec_single(t_shell *shell, t_cmd *cmd)
 			return (1);
 		return (0);
 	}
-	if (!cmd->arguments[0])
+	if (!cmd->arguments[0] || !cmd->arguments[0][0])
 	{
 		if (setup_redirs(cmd) == -1)
 			return (1);

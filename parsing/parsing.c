@@ -6,7 +6,7 @@
 /*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/16 00:26:24 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 03:41:22 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/19 13:25:47 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	verif_operator_utils(t_shell *shell, t_token *token)
 			|| tmp->type == R_REDIRECT || tmp->type == APP_REDIRECT)
 		{
 			if (!tmp->next)
+				return (syntax_error(shell, "newline"));
+			if (tmp->type == L_REDIRECT && tmp->next->type == R_REDIRECT)
 				return (syntax_error(shell, "newline"));
 			else if (tmp->next->type != WORD)
 				return (syntax_error(shell, tmp->next->value));

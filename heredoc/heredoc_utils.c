@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 14:41:56 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 18:29:39 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:10:53 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,15 @@ void	print_heredoc_eof_warning(int line, char *eof_hd)
 void	heredoc_cleanup(int stdin_backup, char *new_value
 	, char *gnlreturn, char *eof_hd)
 {
-	dup2(stdin_backup, STDIN_FILENO);
-	close(stdin_backup);
+	if (stdin_backup >= 0)
+	{
+		dup2(stdin_backup, STDIN_FILENO);
+		close(stdin_backup);
+	}
 	free(new_value);
 	free(gnlreturn);
 	free(eof_hd);
-	setup_signals_interactive();
+	// setup_signals_interactive();
 }
 
 void	add_heredoc(t_cmd *cmd, t_token **tokens)
@@ -54,5 +57,8 @@ void	add_heredoc(t_cmd *cmd, t_token **tokens)
 	*tokens = (*tokens)->next;
 	if (cmd->heredoc_buff)
 		free(cmd->heredoc_buff);
-	cmd->heredoc_buff = ft_strdup((*tokens)->value);
+	if ((*tokens)->value)
+		cmd->heredoc_buff = ft_strdup((*tokens)->value);
+	else
+		cmd->heredoc_buff = ft_strdup("");
 }

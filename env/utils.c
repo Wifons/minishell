@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 03:44:17 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/19 18:20:08 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/19 22:10:23 by tcassu           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,31 +62,18 @@ void	ft_lstadd_back_env(t_env_var **env, t_env_var *new)
 
 t_env_var	*ft_lstnew_env(const char *name, const char *value)
 {
-	t_env_var	*new_node;
+	t_env_var	*list;
 
-	if (!name)
+	list = malloc(sizeof(t_env_var));
+	if (!list)
 		return (NULL);
-	new_node = malloc(sizeof(t_env_var));
-	if (!new_node)
-		return (NULL);
-	new_node->name = ft_strdup(name);
-	if (!new_node->name)
-	{
-		free(new_node);
-		return (NULL);
-	}
+	list->name = ft_strdup(name);
 	if (value)
-		new_node->value = ft_strdup(value);
+		list->value = ft_strdup(value);
 	else
-		new_node->value = NULL;
-	if (value && !new_node->value)
-	{
-		free(new_node->name);
-		free(new_node);
-		return (NULL);
-	}
-	new_node->next = NULL;
-	return (new_node);
+		list->value = NULL;
+	list->next = NULL;
+	return (list);
 }
 
 void	ft_lstdelone_env(t_env_var *lst, void (*del)(void*))

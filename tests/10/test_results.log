@@ -1,0 +1,286 @@
+SHELL COMPARISON TESTS
+Date: Fri Jun 20 22:49:26 CEST 2025
+Test Run: 10
+
+━━━ Test 32: export HOLA=" bonjour hey "
+echo $HOLA | cat -e
+ ━━━
+BASH:
+bonjour hey$
+echo $?
+0
+
+MINISHELL:
+bonjour hey $
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 47: export HOLA="s -la"
+l$HOLA
+ ━━━
+BASH:
+total 296
+drwxr-xr-x 14 jewtwo jewtwo   4096 Jun 20 22:49  .
+drwxr-xr-x 14 jewtwo jewtwo   4096 Jun 20 15:12  ..
+drwxr-xr-x  8 jewtwo jewtwo   4096 Jun 20 20:37  .git
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:46  0123456789
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:46 'AMOUR Tu es Horrible'
+-rw-r--r--  1 jewtwo jewtwo   2697 Jun 20 19:08  Makefile
+-rw-r--r--  1 jewtwo jewtwo      2 Jun 20 22:46  PROUT
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:46  a
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:46  b
+-rw-r--r--  1 jewtwo jewtwo      5 Jun 20 22:45  bonjour
+-rw-r--r--  1 jewtwo jewtwo      5 Jun 20 22:46  c
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:46  d
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:53  dir
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 19:57  e
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:45  env
+drwxr-xr-x  8 jewtwo jewtwo   4096 Jun 20 15:58  exec
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37  expansion
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 15:10  heredoc
+-rw-r--r--  1 jewtwo jewtwo      0 Jun 20 22:46  hey
+drwxr-xr-x  3 jewtwo jewtwo   4096 Jun 20 13:46  libft
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:42  listtest
+-rwxr-xr-x  1 jewtwo jewtwo 160320 Jun 20 22:49  minishell
+-rw-r--r--  1 jewtwo jewtwo   2340 Jun 20 19:40  minishell.c
+-rw-r--r--  1 jewtwo jewtwo   8452 Jun 20 20:36  minishell.h
+-rw-r--r--  1 jewtwo jewtwo  10016 Jun 20 19:40  minishell.o
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37  parsing
+-rwxrwxrwx  1 jewtwo jewtwo   6995 Jun 20 22:41  tester2.sh
+drwxr-xr-x 12 jewtwo jewtwo   4096 Jun 20 22:49  tests
+-rw-r--r--  1 jewtwo jewtwo  12462 Jun 20 13:42  tmp.txt
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 20:37  tokenizer
+drwxr-xr-x  2 jewtwo jewtwo   4096 Jun 20 13:44  utils
+-rw-r--r--  1 jewtwo jewtwo     81 Jun 20 13:42  valgrind.supp
+echo $?
+0
+
+MINISHELL:
+ls -la: command not found
+echo $?
+127
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 64: export HOLA='""'
+echo "" $HOLA "" | cat -e
+ ━━━
+BASH:
+"" $
+echo $?
+0
+
+MINISHELL:
+$
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 78: exit exit
+ ━━━
+BASH:
+exit
+exit: exit: numeric argument required
+
+MINISHELL:
+exit
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 79: exit hola
+ ━━━
+BASH:
+exit
+exit: hola: numeric argument required
+
+MINISHELL:
+exit
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 80: exit hola que tal
+ ━━━
+BASH:
+exit
+exit: hola: numeric argument required
+
+MINISHELL:
+exit
+exit: too many arguments
+echo $?
+1
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 86: exit hola 666
+ ━━━
+BASH:
+exit
+exit: hola: numeric argument required
+
+MINISHELL:
+exit
+exit: too many arguments
+echo $?
+1
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 89: exit hola 666 666
+ ━━━
+BASH:
+exit
+exit: hola: numeric argument required
+
+MINISHELL:
+exit
+exit: too many arguments
+echo $?
+1
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 124: ls | exit
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+exit
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 125: ls | exit 42
+ ━━━
+BASH:
+echo $?
+42
+
+MINISHELL:
+exit
+echo $?
+42
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 126: exit | ls
+ ━━━
+BASH:
+0123456789		 bonjour   exec        minishell     tests
+'AMOUR Tu es Horrible'	 c	   expansion   minishell.c   tmp.txt
+Makefile		 d	   heredoc     minishell.h   tokenizer
+PROUT			 dir	   hey	       minishell.o   utils
+a			 e	   libft       parsing	     valgrind.supp
+b			 env	   listtest    tester2.sh
+echo $?
+0
+
+MINISHELL:
+exit
+0123456789		 bonjour   exec        minishell     tests
+'AMOUR Tu es Horrible'	 c	   expansion   minishell.c   tmp.txt
+Makefile		 d	   heredoc     minishell.h   tokenizer
+PROUT			 dir	   hey	       minishell.o   utils
+a			 e	   libft       parsing	     valgrind.supp
+b			 env	   listtest    tester2.sh
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 127: echo hola > bonjour
+exit | cat -e bonjour
+ ━━━
+BASH:
+hola$
+echo $?
+0
+
+MINISHELL:
+exit
+hola$
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 128: echo hola > bonjour
+cat -e bonjour | exit
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+exit
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 135: time sleep 3 | sleep 3
+ ━━━
+BASH:
+real	0m3.002s
+user	0m0.003s
+sys	0m0.000s
+echo $?
+0
+
+MINISHELL:
+0.00user 0.00system 0:03.00elapsed 0%CPU (0avgtext+0avgdata 1920maxresident)k
+0inputs+0outputs (0major+100minor)pagefaults 0swaps
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 136: sleep 3 | exit
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+exit
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+━━━ Test 137: exit | sleep 3
+ ━━━
+BASH:
+echo $?
+0
+
+MINISHELL:
+exit
+echo $?
+0
+
+✗ DIFFER
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+TESTS COMPLETE

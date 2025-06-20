@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/15 20:06:12 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/19 19:29:01 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/20 20:36:50 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,7 +137,6 @@ int			syntax_error(t_shell *shell, const char *value);
 /* Parsing cmd manager */
 void		init_cmd(t_cmd *cmd);
 void		add_arg(t_cmd *cmd, char *value);
-void		print_cmd(t_cmd *cmd);
 void		add_l_red(t_cmd *cmd, t_token **tokens);
 void		add_r_red(t_cmd *cmd, t_token **tokens);
 void		add_app_red(t_cmd *cmd, t_token **tokens);
@@ -176,6 +175,9 @@ int			print_all_vars(t_env_var *env);
 int			builtin_cd(t_shell *shell, t_cmd *cmd);
 int			builtin_exit(t_shell *shell, t_cmd *cmd);
 int			is_option(char *arg);
+long		ft_atol(const char *str);
+int			ft_countoperator(char *str);
+int			compare_to_long_limits(const char *str);
 int			legal_number(char *string, long *result);
 int			builtin_pwd(t_shell *shell, char **arguments);
 int			builtin_unset(t_shell *shell, char **args);
@@ -199,7 +201,7 @@ void		setup_pipe_out(int pipefd[2]);
 /* -> External*/
 char		*find_cmd_path(t_env_var *env, const char *cmd);
 int			exec_external(t_shell *shell, t_cmd *cmd);
-int			print_cmd_not_found(const char *cmd);
+// int			print_cmd_not_found(const char *cmd);
 int			is_directory(const char *path);
 int			print_dir_error(char *cmd);
 void		exec_cmd(t_shell *sh, t_cmd *cmd, char *path);
@@ -253,15 +255,11 @@ char		*remove_quotes(char *input);
 /* signals */
 extern volatile sig_atomic_t	g_signal_received;
 
-void		setup_signals_interactive(void);
-void		setup_signals_execution(void);
-void		setup_signals_child(void);
-void		setup_heredoc_signals(void);
-void		handle_sigint_heredoc(int sig);
-void		handle_sigquit_execution(int sig);
-void		handle_sigint_interactive(int sig);
-void		reset_signals(void);
-
 void		print_file_error(const char *file);
+
+char *handle_oldpwd(t_shell *sh);
+void print_chdir_error(char *path);
+void update_pwd_vars(t_shell *sh);
+int check_empty_home(t_shell *sh);
 
 #endif

@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   setup_pipe_cmd.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/26 02:07:46 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 23:59:02 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 15:58:12 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-static void	setup_pipe_input(int in_fd)
+static void setup_pipe_input(int in_fd)
 {
 	if (in_fd != STDIN_FILENO)
 	{
@@ -22,7 +22,7 @@ static void	setup_pipe_input(int in_fd)
 }
 
 /* Setup stdout to next pipe if needed */
-static void	setup_pipe_output(t_cmd *cmd, int pipefd[2])
+static void setup_pipe_output(t_cmd *cmd, int pipefd[2])
 {
 	if (cmd->next_pipe)
 		setup_pipe_out(pipefd);
@@ -31,11 +31,17 @@ static void	setup_pipe_output(t_cmd *cmd, int pipefd[2])
 }
 
 /* Execute command based on type (builtin or external) */
-static int	exec_cmd_type(t_shell *shell, t_cmd *cmd)
+static int exec_cmd_type(t_shell *shell, t_cmd *cmd)
 {
-	int	exit_code;
+	int exit_code;
 
 	if (!cmd->arguments)
+	{
+		if (setup_redirs(cmd) == -1)
+			return (1);
+		return (0);
+	}
+	if (!cmd->arguments[0] || cmd->arguments[0][0] == '\0')
 	{
 		if (setup_redirs(cmd) == -1)
 			return (1);
@@ -49,9 +55,9 @@ static int	exec_cmd_type(t_shell *shell, t_cmd *cmd)
 }
 
 /* Setup pipes and execute command in child process */
-void	exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
+void exec_pipe_cmd(t_shell *shell, t_cmd *cmd, int in_fd, int pipefd[2])
 {
-	int	exit_code;
+	int exit_code;
 
 	setup_pipe_input(in_fd);
 	setup_pipe_output(cmd, pipefd);

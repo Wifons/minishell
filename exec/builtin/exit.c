@@ -3,26 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tcassu <tcassu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/18 03:45:49 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/18 21:37:11 by tcassu           ###   ########.fr       */
+/*   Updated: 2025/06/20 22:52:30 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-/* Check if string is numeric */
 int	legal_number(char *string, long *result)
 {
-	char	*end;
 	long	val;
-
+	int		i;
+	
 	if (!string || !*string)
 		return (0);
-	errno = 0;
-	val = strtol(string, &end, 10);
-	if (errno != 0 || *end != '\0' || end == string)
+	i = 0;
+	while (string[i])
+	{
+		if (string[i] == '\'' || string[i] == '"')
+			return (0);
+		i++;
+	}
+	if (ft_countoperator(string))
+	{
+		if (compare_to_long_limits(string) == 0)
+			val = ft_atol(string);
+		else
+			return (0);
+	}
+	else
 		return (0);
 	*result = val;
 	return (1);
@@ -53,8 +64,6 @@ static int	get_exitstat(char **args, t_shell *sh, int *too_many_args)
 
 	*too_many_args = 0;
 	i = 1;
-	if (args[i] && is_option(args[i]))
-		i++;
 	if (!args[i])
 		return (sh->global_status);
 	arg = args[i];

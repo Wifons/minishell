@@ -1,0 +1,16 @@
+<<<<<<<<<<<<<<<<
+
+''
+
+echo my shit terminal is [$TERM]
+
+"$HOMEdskjhfkdshfsd"
+
+export -HOLA=bonjour
+
+export --HOLA=bonjour
+
+export | grep "HOME"
+
+unset -HOLA
+

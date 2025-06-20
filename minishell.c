@@ -6,7 +6,7 @@
 /*   By: wifons <wifons@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/13 09:24:32 by tcassu            #+#    #+#             */
-/*   Updated: 2025/06/19 19:05:11 by wifons           ###   ########.fr       */
+/*   Updated: 2025/06/20 19:40:48 by wifons           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ void	shell_process(t_shell *shell)
 	char	*input;
 	t_token	*tokens;
 	t_cmd	*cmd;
-	
+
 	while (!shell->should_exit)
 	{
 		input = readline("minishell$ ");
@@ -70,12 +70,12 @@ void	shell_process(t_shell *shell)
 		if (tokens)
 		{
 			cmd = parse_cmd(tokens, shell);
-			setup_signals_execution();
 			if (cmd)
 				shell->global_status = exec_command(shell, cmd);
-			setup_signals_interactive();
 			ft_free_cmd_list(cmd);
 		}
+		if (input)
+			free(input);
 		shell->curr_line++;
 	}
 }
@@ -91,7 +91,6 @@ int	main(int argc, char **argv, char **envp)
 		ft_putendl_fd("minishell: failed to initialize", STDERR_FILENO);
 		return (1);
 	}
-	setup_signals_interactive();
 	sh.curr_line = 1;
 	shell_process(&sh);
 	cleanup_shell(sh.env);
